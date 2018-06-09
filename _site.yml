@@ -1,0 +1,13 @@
+name: "Rmark-website"
+output_dir: "."
+navbar:
+  title: "First Try"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About Me"
+      href: about.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
