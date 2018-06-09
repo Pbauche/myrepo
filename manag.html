@@ -11,7 +11,7 @@
 
 
 
-<title>Handout</title>
+<title>Data Managment</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -198,69 +198,85 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Handout</h1>
+<h1 class="title toc-ignore">Data Managment</h1>
 
 </div>
 
 
-<div id="amandine-i-love-you-3" class="section level1">
-<h1><strong>Amandine, I love you &lt;3</strong></h1>
-<div id="command-line" class="section level3">
-<h3>Command line</h3>
+<div id="data-managment" class="section level1">
+<h1><strong>Data Managment</strong></h1>
+<div id="missing-value" class="section level3">
+<h3>Missing Value</h3>
 <ul>
-<li>git add .</li>
-<li>git commit -m “comment”</li>
+<li>Do nothing</li>
+<li>remove</li>
+<li>impute
+<ul>
+<li>by mean : doesn’t impact analysis</li>
+<li>by singular value decomposition : approximate true value</li>
+<li>by regression :approximate true value</li>
+</ul></li>
 </ul>
 </div>
-</div>
-<div id="summary" class="section level1">
-<h1><strong>Summary</strong></h1>
-<div id="data-managment-usefull-useful-techniques" class="section level2">
-<h2>1. Data Managment : Usefull Useful techniques</h2>
-</div>
-<div id="data-visualization-some-ggplot" class="section level2">
-<h2>2. Data Visualization : some ggplot</h2>
-</div>
-<div id="regression" class="section level2">
-<h2>3. Regression</h2>
+<div id="date-time-lubridate-package" class="section level3">
+<h3>Date Time : Lubridate package</h3>
 <ul>
-<li>3.1. linear</li>
-<li>3.2. logistic</li>
-<li>3.3. Generalized</li>
+<li>Use as.POSIXct() and UTC (universal coordinated time)in time zone.</li>
+<li>create new variables : weekend (0/1), bankholiday (0/1), …</li>
 </ul>
 </div>
-<div id="decision-tree" class="section level2">
-<h2>4. Decision tree</h2>
-</div>
-<div id="deep-learning" class="section level2">
-<h2>5. deep learning</h2>
+<div id="variables" class="section level3">
+<h3>Variables</h3>
 <ul>
-<li>5.1. Neural network</li>
+<li>Enrichir les data en combinant et cr?ant de nouvelles variables :id?es
+<ul>
+<li>n-day average (in time series) : peut r?duire la variabilit? etle noise</li>
+</ul></li>
 </ul>
 </div>
-<div id="bayesien" class="section level2">
-<h2>6. Bayesien</h2>
+<div id="reshaping-data-package-tidyr" class="section level3">
+<h3>reshaping data : package tidyr</h3>
 </div>
-<div id="unsupervised" class="section level2">
-<h2>7. Unsupervised</h2>
+</div>
+<div id="sampling-and-resampling" class="section level1">
+<h1><strong>Sampling and resampling</strong></h1>
+<p>the sample can be generalized for the population with statistical confidence. Is an approximatation.</p>
+<p>1.model sampling : population data is already collected and you want to reduce time and the computational cost of analysis, along with improve the inference of your models</p>
+<ol start="2" style="list-style-type: decimal">
+<li>survey sampling : create a sample design and then survey the population only to collect sample to save data collection costs</li>
+</ol>
+<p>Weak law of large numbers : <span class="math inline">\(\bar{X_n} =&gt; \mu\)</span> Central limit theorem : distribution standardis? tend vers une normale asymptotiquement</p>
+<p>type of sampling methods : Machine Learning with R chapter 3</p>
+<p>Boostrap sampling : sampling with replacement Jackknife = leave one out sampling + calculate average of the estimation</p>
+</div>
+<div id="feature-enegeering-variables-selections" class="section level1">
+<h1><strong>Feature enegeering : variables selections</strong></h1>
+<div id="filter-methods" class="section level3">
+<h3>Filter methods :</h3>
+<p>Select variables sans mod?lisation. Methode univari?e. Order feature by importance - Chi square test - Corr?lation coefficients - information gain metrics - fisher score - variance treshold</p>
+<p>Methode robust contre overfitting mais peut selectionner variables redondantes</p>
+</div>
+<div id="wrapper-methods" class="section level3">
+<h3>Wrapper Methods:</h3>
+<p>Test diff?rentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric - forward/backward selection - recursive feature elimation algorithm - …</p>
+<p>M?thode efficace pour la mod?lisation. Peut caus? de l’overfitting</p>
+</div>
+<div id="embedded-methods" class="section level3">
+<h3>Embedded Methods :</h3>
+<p>Next step to wrapper methods. Introduce a penalty factor to the evaluation criteria of the model to bias the model toward lower complexity. Balance between complexity and accurancy. - Lasso - Ridge regression - … - Decision tree - Gradiant descent methods</p>
+<p>Less computationally expensive than Wrapper. Less prone to overfitting.</p>
+</div>
+<div id="dimension-reduction" class="section level3">
+<h3>Dimension reduction :</h3>
+<p>PCA see unsupervised analysis</p>
+</div>
+<div id="check-list" class="section level3">
+<h3>Check list</h3>
 <ul>
-<li>7.1. PCA</li>
-<li>7.2. Clustering</li>
+<li>Use knowladge to construct a better set of features (business)</li>
+<li>Normalize the feature if metrics differt or unknow</li>
+<li>if suspect interdependance:</li>
 </ul>
-</div>
-<div id="other-data-analytics" class="section level2">
-<h2>8. Other Data Analytics</h2>
-<ul>
-<li>8.1. Boosting</li>
-<li>8.2. Bagging</li>
-<li>8.3. Boostrap</li>
-</ul>
-</div>
-<div id="text-mining" class="section level2">
-<h2>9. Text mining</h2>
-</div>
-<div id="time-series" class="section level2">
-<h2>10. Time Series</h2>
 </div>
 </div>
 

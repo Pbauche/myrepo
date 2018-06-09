@@ -1,0 +1,78 @@
+---
+title: "Data Managment"
+---
+# **Data Managment**
+
+### Missing Value
+  - Do nothing
+  - remove
+  - impute
+    - by mean : doesn't impact analysis
+    - by singular value decomposition : approximate true value
+    - by regression :approximate true value
+        
+### Date Time : Lubridate package
+  - Use as.POSIXct() and UTC (universal coordinated time)in time zone.
+  - create new variables : weekend (0/1), bankholiday (0/1), ...
+    
+### Variables
+  - Enrichir les data en combinant et cr?ant de nouvelles variables :id?es
+    - n-day average (in time series) : peut r?duire la variabilit? etle noise
+        
+### reshaping data : package tidyr
+
+# **Sampling and resampling**
+the sample can be generalized for the population with statistical confidence. Is an approximatation.
+
+1.model sampling : population data is already collected and you want to reduce time and the computational cost of analysis, along with improve the inference of your models
+
+2. survey sampling : create a sample design and then survey the population only to collect sample to save data collection costs
+
+Weak law of large numbers :  $\bar{X_n} => \mu$
+Central limit theorem : distribution standardis? tend  vers une normale asymptotiquement
+
+type of sampling methods : Machine Learning with R chapter 3
+
+Boostrap sampling : sampling with replacement
+Jackknife = leave one out sampling  + calculate average of the estimation
+
+
+# **Feature enegeering : variables selections**
+### Filter methods : 
+Select variables sans mod?lisation. Methode univari?e. Order feature by importance
+    - Chi square test
+    - Corr?lation coefficients
+    - information gain metrics
+    - fisher score
+    - variance treshold
+
+Methode robust contre overfitting mais peut selectionner variables redondantes    
+    
+### Wrapper Methods: 
+Test diff?rentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric
+    - forward/backward selection
+    - recursive feature elimation algorithm
+    -  ...
+    
+M?thode efficace pour la mod?lisation. Peut caus? de l'overfitting    
+    
+### Embedded Methods : 
+Next step to wrapper methods. Introduce a penalty factor to the evaluation criteria of the model to bias the model toward lower complexity. Balance between complexity and accurancy.
+    - Lasso
+    - Ridge regression
+    - ...
+    - Decision tree
+    - Gradiant descent methods
+    
+Less computationally expensive than Wrapper. Less prone to overfitting. 
+    
+    
+### Dimension reduction  : 
+PCA see unsupervised analysis    
+    
+### Check list
+  - Use knowladge to construct a better set of features (business)
+  - Normalize the feature if metrics differt or unknow
+  - if suspect interdependance: 
+    
+    

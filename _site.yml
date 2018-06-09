@@ -5,8 +5,11 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About Me"
-      href: about.html
+    - text: "Data Managment"
+      href: manag.html
+    - text: "Data Visualization"
+      href: visual.html
+
 output:
   html_document:
     theme: cosmo

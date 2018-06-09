@@ -1,7 +1,41 @@
 ---
-  title: "Rmark-website"
+  title: "Handout"
 ---
   
-# **Command line**
+# **Amandine, I love you <3** 
+  
+### Command line
 - git add . 
 - git commit -m "comment"
+
+# **Summary**
+## 1. Data Managment : Usefull Useful techniques
+## 2. Data Visualization : some ggplot  
+## 3. Regression
+  - 3.1. linear
+  - 3.2. logistic
+  - 3.3. Generalized
+  
+## 4. Decision tree
+## 5. deep learning
+  - 5.1. Neural network
+  
+## 6. Bayesien
+## 7. Unsupervised 
+  - 7.1. PCA
+  - 7.2. Clustering 
+  
+## 8. Other Data Analytics
+  - 8.1. Boosting
+  - 8.2. Bagging
+  - 8.3. Boostrap
+
+## 9. Text mining
+
+## 10. Time Series
+  
+  
+  
+  
+  
+  
