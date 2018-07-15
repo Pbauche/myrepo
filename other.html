@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Other</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">First Draft</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="manag.html">Data Managment</a>
+</li>
+<li>
+  <a href="visual.html">Data Visualization</a>
+</li>
+<li>
+  <a href="reg.html">Regression</a>
+</li>
+<li>
+  <a href="DT.html">Decission Tree</a>
+</li>
+<li>
+  <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="modeval.html">Model Evaluation</a>
+</li>
+<li>
+  <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Other</h1>
+
+</div>
+
+
+<div id="support-vector-machines-a-distance-based-algorithm-trs-bon-pour-la-classification-binaire-dans-les-big-dataset.-can-deal-with-nonlinearity-overlapping-classes-etc." class="section level1">
+<h1>** Support Vector Machines** A distance-based algorithm tr?s bon pour la classification binaire dans les big dataset. Can deal with nonlinearity, overlapping classes, … etc.</h1>
+<ul>
+<li>Classe separation : SVM Cherche the optimal hyperplane separating 2 classe by maximizing the margin between the closest points. The point lying on the margins are the Support Vectors. The line passing through the midpoint of the margins is the optimal hyperplane.</li>
+</ul>
+<div class="figure">
+<img src="C:/Users/007/Desktop/Data%20science%20with%20R/R/img/SVM.PNG" alt="SVM" />
+<p class="caption">SVM</p>
+</div>
+<ul>
+<li><p>Overlapping classe : Si point on the wring side, il peut etre pond?rer pour r?duire sont influence. On utilise the Hinge loss function qui est proportionnel a la distince from the margin/</p></li>
+<li><p>Non liearity : Si une s?paration lin?aire ne peut etre trouv?, les observations sont projet? dans un espace a plus haute dimension using a kernel function ou les observations deviennent lin?airement s?parable/</p></li>
+</ul>
+<p>One popular Gaussian family kernel is the radial basis function. A radial basis function (RBF) is a real-valued function whose value depends only on the distance from the origin $ K(x,y) = (- ) $ Il existe d’autre fonction kernel</p>
+<p>Kernel :refet to a window function that is zero-valued outside of some chosen interval.</p>
+<p>==&gt; c’est donc un probleme de minisation des distances</p>
+<div id="binary-svm-classifier" class="section level3">
+<h3>Binary SVM Classifier</h3>
+<pre class="r"><code>library(e1071)</code></pre>
+<pre><code>## Warning: package &#39;e1071&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(rpart)
+library(gmodels)
+
+### data pre ###
+#################
+
+breast_cancer_data &lt;-read.table(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/breast-cancer-wisconsin.data.txt&quot;,sep=&quot;,&quot;)
+breast_cancer_data$V11 =as.factor(breast_cancer_data$V11)
+
+# split data into a train and test set
+index &lt;-1:nrow(breast_cancer_data)
+test_data_index &lt;-sample(index, trunc(length(index)/3))
+test_data &lt;-breast_cancer_data[test_data_index,]
+train_data &lt;-breast_cancer_data[-test_data_index,]
+
+# model
+svm.model &lt;-svm(V11 ~., data = train_data, cost =100, gamma =1)
+
+# note : in realworld dataset accurancy of 100% is not possible 
+# but un medical dignostic il est important d&#39;etre proche
+
+svm_pred_train &lt;-predict(svm.model, train_data[,-11])
+CrossTable(train_data$V11, svm_pred_train, prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE, dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  466 
+## 
+##  
+##                | predicted default 
+## actual default |         2 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|
+##              2 |       304 |         0 |       304 | 
+##                |     0.652 |     0.000 |           | 
+## ---------------|-----------|-----------|-----------|
+##              4 |         0 |       162 |       162 | 
+##                |     0.000 |     0.348 |           | 
+## ---------------|-----------|-----------|-----------|
+##   Column Total |       304 |       162 |       466 | 
+## ---------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>svm_pred_test &lt;-predict(svm.model, test_data[,-11])
+CrossTable(test_data$V11, svm_pred_test,prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE, dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  233 
+## 
+##  
+##                | predicted default 
+## actual default |         2 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|
+##              2 |       143 |        11 |       154 | 
+##                |     0.614 |     0.047 |           | 
+## ---------------|-----------|-----------|-----------|
+##              4 |         0 |        79 |        79 | 
+##                |     0.000 |     0.339 |           | 
+## ---------------|-----------|-----------|-----------|
+##   Column Total |       143 |        90 |       233 | 
+## ---------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code># result top! </code></pre>
+</div>
+<div id="multiclasse-svm" class="section level3">
+<h3>multiclasse SVM</h3>
+<p>Peut etre ?tendu a du multiclasse by creating multible binary classifier. - create binary classifiers - between one class and the rest of the classes - between every pair of classe possibles - For any new cases, the SVM classifier adopts a winner-takes-all strategy, in which the class with highest output is assigned.</p>
+<pre class="r"><code>library( &#39;e1071&#39; )
+
+Data_House_Worth &lt;-read.csv(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6//House Worth Data.csv&quot;,header=TRUE)
+
+# model
+
+svm_multi_model &lt;-svm( HouseNetWorth ~StoreArea +LawnArea, Data_House_Worth )
+svm_multi_model</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = HouseNetWorth ~ StoreArea + LawnArea, data = Data_House_Worth)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  radial 
+##        cost:  1 
+##       gamma:  0.5 
+## 
+## Number of Support Vectors:  120</code></pre>
+<pre class="r"><code>res &lt;-predict( svm_multi_model, newdata=Data_House_Worth )
+
+table(Data_House_Worth$HouseNetWorth,res)</code></pre>
+<pre><code>##         res
+##          High Low Medium
+##   High    122   1      7
+##   Low       6 122      7
+##   Medium    1   7     43</code></pre>
+<pre class="r"><code>sum(diag(table(Data_House_Worth$HouseNetWorth,res)))/nrow(Data_House_Worth)</code></pre>
+<pre><code>## [1] 0.9082278</code></pre>
+<p>SVM est un non probalistic binary classifier mais tr?s efficace. Peut sappliquer a la classification d’image, d’hypertext, character recognition, …</p>
+</div>
+</div>
+<div id="parallel-execution-in-r-using-the-doparallel-library-in-r-we-can-set-the-number-of-cores-of-the-cpu-which-you-want-your-machine-to-use-in-while-running-the-model.-keep-in-mind-that-assigning-all-the-cores-to-this-process-could-crash-your-other-processes-due-to-insufficient-resources.-to-be-safer-we-used-the-c-2-cores-where-c-is-the-number-of-cores-available-in-your-machine." class="section level1">
+<h1>** Parallel Execution in R** Using the doParallel library in R, we can set the number of cores of the CPU, which you want your machine to use in while running the model. Keep in mind that assigning all the cores to this process could crash your other processes due to insufficient resources. To be safer, we used the c-2 cores, where c is the number of cores available in your machine.</h1>
+</div>
+<div id="hadoop-introduction" class="section level1">
+<h1>** Hadoop introduction **</h1>
+<p>Hadoop framework consists of the following three modules - Hadoop Distributed File System : This is the storage part of Hadoop - Hadoop YARN: This is also known as the data operating system. • Hadoop MapReduce: MapReduce decides the execution logic of what needs to be done with the data. The logic should be designed in such a way that it can execute in parallel with smaller chunks of data residing in a distributed cluster of machines.</p>
+</div>
+<div id="machine-learning-in-r-with-spark-at-a-high-level-it-provides-tools-such-as---ml-algorithms-common-learning-algorithms-such-as-classification-regression-clustering-and-collaborative-filtering---featurization-feature-extraction-transformation-dimensionality-reduction-and-selection---pipelines-tools-for-constructing-evaluating-and-tuning-ml-pipelines---persistence-saving-and-loading-algorithms-models-and-pipelines---utilities-linear-algebra-statistics-data-handling-etc." class="section level1">
+<h1>** Machine Learning in R with Spark** At a high level, it provides tools such as: - ML algorithms: Common learning algorithms such as classification, regression, clustering, and collaborative filtering - Featurization: Feature extraction, transformation, dimensionality reduction, and selection - Pipelines: Tools for constructing, evaluating, and tuning ML pipelines - Persistence: Saving and loading algorithms, models, and pipelines - Utilities: Linear algebra, statistics, data handling, etc.</h1>
+<p>Need to be download : follow “data science using R, p 541”</p>
+</div>
+<div id="machine-learning-in-r-with-h20-h2o-is-an-open-source-high-performance-cluster-for-big-data-analysis.-these-techniques-are-not-feasible-to-be-executed-on-individual-machines-and-need-high-power-computing." class="section level1">
+<h1>** Machine learning in R with H20** H2O is an open source high performance cluster for big data analysis. These techniques are not feasible to be executed on individual machines and need high-power computing.</h1>
+<p>H2O is a Java Virtual Machine that is optimized for doing “in-memory” processing of distributed, parallel machine learning algorithms on clusters.</p>
+<pre class="r"><code># install.packages(&quot;h2o&quot;)
+# Load the h2o library in R
+library(h2o)</code></pre>
+<pre><code>## 
+## ----------------------------------------------------------------------
+## 
+## Your next step is to start H2O:
+##     &gt; h2o.init()
+## 
+## For H2O package documentation, ask for help:
+##     &gt; ??h2o
+## 
+## After starting H2O, you can use the Web UI at http://localhost:54321
+## For more information visit http://docs.h2o.ai
+## 
+## ----------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;h2o&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     hour, month, week, year</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     cor, sd, var</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     %*%, %in%, &amp;&amp;, ||, apply, as.factor, as.numeric, colnames,
+##     colnames&lt;-, ifelse, is.character, is.factor, is.numeric, log,
+##     log10, log1p, log2, round, signif, trunc</code></pre>
+<pre class="r"><code>#Initiate a cluster in your machine
+localH2O =h2o.init
+
+# The function demo runs all at once and outputs the entire output at one go. However, for better understanding of what the function does, we have split the output and explainedeach part in detail.
+
+# demo = demo(h2o.deeplearning)
+
+# more demo : 
+# demo(package = &quot;h2o&quot;)</code></pre>
+<p>Additional parameters are: - Hidden, which specifies the hidden layer sizes, - Activation, which specifies the type of activation function; the demo uses a Tanh function - epochs, which directs the neural network with “How many times the dataset should be iterated (streamed)</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

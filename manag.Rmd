@@ -1,7 +1,7 @@
 ---
 title: "Data Managment"
 ---
-# **Data Managment**
+# **Pre processing**
 
 ### Missing Value
   - Do nothing
@@ -41,7 +41,7 @@ Jackknife = leave one out sampling  + calculate average of the estimation
 ### Filter methods : 
 Select variables sans mod?lisation. Methode univari?e. Order feature by importance
     - Chi square test
-    - Corr?lation coefficients
+    - Correlation coefficients
     - information gain metrics
     - fisher score
     - variance treshold
@@ -49,7 +49,7 @@ Select variables sans mod?lisation. Methode univari?e. Order feature by importan
 Methode robust contre overfitting mais peut selectionner variables redondantes    
     
 ### Wrapper Methods: 
-Test diff?rentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric
+Test differentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric
     - forward/backward selection
     - recursive feature elimation algorithm
     -  ...
@@ -70,9 +70,157 @@ Less computationally expensive than Wrapper. Less prone to overfitting.
 ### Dimension reduction  : 
 PCA see unsupervised analysis    
     
-### Check list
-  - Use knowladge to construct a better set of features (business)
+# **Example : Credit risk modeling**
+  - **Feature ranking** 
+      -  Fit logistic model
+      -  Calculate Gini coefficient
+      -  rearrange variables ?  combine, weighted sums, etc
+      -  Need to understand variable individually ? use Filtering method
+      - data dirty ? detect outlier
+      - Data selection? use first ranking, forward selection and last Embedded method. Compare with crit?rion (misclassi, MSE, AIC, etc)
+      - improve performance? bootstrap : subsample your data et redo analysis
+
+```{r exCredit }
+### Data Prep ###
+#################
+data = get(load("C:/Users/007/Desktop/Data science with R/R/Dataset/LoanDefaultPred.RData"))
+dim(data)
+
+#Create the default variable
+data[,"default"]=ifelse(data$loss ==0, 0,1)
+print(table(data$default)*100/nrow(data))
+
+# Without prior kwowledge : if more than 30 variable is continuous
+continuous <-character()
+categorical <-character()
+i = names(data)[1]
+p<-1
+q<-1
+
+for (i in names(data)){
+unique_levels =length(unique(data[,i]))
+
+  if(i %in% c("id","loss","default")){
+next;
+      }else if (unique_levels <=30 |is.character(data[,i])){
+            categorical[p] <-i
+            p=p+1
+            data[[i]] <-factor(data[[i]])
+  }else{
+            continuous[q] <-i
+            q=q+1
+  }}
+
+cat("\nTotal number of continuous variables in feature set ",length(continuous) -1)
+cat("\nTotal number of categorical variable in feature set ",length(categorical) -2)
+
+library(MLmetrics)
+performance_metric_gini <-data.frame(feature =character(), Gini_value =numeric())
+
+# for (feature in names(data)){
+#     if(feature %in%c("id","loss","default")) {
+#         next
+#       } else {
+# tryCatch(
+#   {glm_model <-glm(default ~get(feature),data=data,family=binomial(link="logit"));
+#   predicted_values <-predict.glm(glm_model,newdata=data,type="response");
+#   Gini_value <-Gini(predicted_values,data$default);
+#   performance_metric_gini <-rbind(performance_metric_gini,cbind(feature,Gini_value));},error=function(e){})
+# }
+# }
+# 
+# saveRDS(performance_metric_gini, "performance_metric_gini.rds")
+performance_metric_gini <- readRDS("performance_metric_gini.rds")
+
+performance_metric_gini$Gini_value <-as.numeric(as.character(performance_metric_gini$Gini_value))
+
+Ranked_Features <-performance_metric_gini[order(-performance_metric_gini$Gini_value),]
+class(Ranked_Features)
+head(Ranked_Features)
+
+# Note  : When you are running loops over large datasets, it is possible that the loop might stop due to some errors. to escape that, consider using the trycatch() function in r
+
+### Try logistic regression with top 5 features ###
+###################################################
+
+glm_model <-glm(default ~f766 +f404 +f629 +f630 +f281
+                +f322,data=data,family=binomial(link="logit"))
+predicted_values <-predict.glm(glm_model,newdata=data,type="response")
+Gini_value <-Gini(predicted_values,data$default)
+summary(glm_model)
+Gini_value
+
+# Every features aren't always significant. Indication that features themselves are highly correlated. Gini coef has not improved. So investigate multicorrelation.
+
+# Variable ranking method is univariate and lead to the selection of a redundant variables. 
+
+top_6_feature <-data.frame(data$f766,data$f404,data$f629,data$f630,data$f281,data$f322)
+cor(top_6_feature, use="complete")
+
+```
+
+
+# **Example : variance treshold approach**
+Hypoth?se : Variable with high variability also have higher information in them. We remove all variables havant variance less than a treshold.
+Attention, les variables ne sont pas standardis?es, on ne peut pas les comparer directement. On utilise le coeficient de variation :$c= \fraq{\sigma}{\mu}$
+
+```{r exVartreshold}
+
+# Calculate CV
+coefficient_of_variance <-data.frame(feature =character(), cov =numeric())
+
+for (feature in names(data)){
+
+  if(feature %in%c("id","loss","default")){next
+  }else if(feature %in% continuous){
+
+    tryCatch({
+      cov <-abs(sd(data[[feature]], na.rm =TRUE)/mean(data[[feature]],na.rm =TRUE));
+      if(cov !=Inf){
+coefficient_of_variance <-rbind(coefficient_of_variance,cbind(feature, cov));
+      } else {next}
+              },error=function(e){})
+  
+  }else{next}
+}
+
+coefficient_of_variance$cov <-as.numeric(as.character(coefficient_of_variance$cov))
+Ranked_Features_cov <-coefficient_of_variance[order(-coefficient_of_variance$cov),]
+
+head(Ranked_Features_cov)
+
+## Logistic model
+
+lm_model <-glm(default ~f338 +f422 +f724 +f636 +f775 +f723,data=data,
+               family=binomial(link="logit"));
+predicted_values <-predict.glm(glm_model,newdata=data,type="response")
+Gini_value <-Gini(predicted_values,data$default)
+
+cat("The Gini Coefficient for the fitted model is ",Gini_value);
+
+```
+
+Contrairement au Ranking avec Gini, les variables ne sont pas domin?s par leur structure de correlation. Mais les variables ne sont pas toutes significatives individuellement et le coef GINI pas particuli?rement am?lior?. 
+Avec variance treshlod on esp?re selectionn? des variables ind?pendantes
+
+
+# **Check list**
+  - Use knowledge to construct a better set of features (business)
   - Normalize the feature if metrics differt or unknow
   - if suspect interdependance: 
+  
+# **Method Summary**
+|   |Variable quanti | Variable quali|
+|---|----------------|---------------|
+|Graph|Time series, barplot, boxplot, histographe, QQplot, scaterplot| barplot, boxplot|
+|Test| t-test sur la moyenne, chi2 sur la variance, test normalité, corrélation, test F variance, test de levene | test proportion, test ajustement, test indépendance|
+| Modélisation| Régression linéaire | régression logistique, analyse discriminante, abre décision|
+
+* Parametric : assume thaht sample data is drawn from a known probabilité distribution based on fixed set of parameters. For instance, linear regression assumes normal distribution, whereas logistic assumes binomial distribution, etc. This assumption allows the methods to be applied to small datasets as well.
+
+* Non parametric : not assume any probabilty distribution or prior. Contruct empirical distributions from data. (= Kernel regression, NPMR)
+    ** LIRE : Artificial Intelligence: A Modern Approach" by Stuart Russell and Peter Norvig.
+    
+# **tydiverse package**
     
     

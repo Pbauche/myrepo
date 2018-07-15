@@ -1,16 +1,30 @@
-name: "Rmark-website"
-output_dir: "."
+name: Rmark-website
+output_dir: '.'
 navbar:
-  title: "First Try"
+  title: First Draft
   left:
-    - text: "Home"
-      href: index.html
-    - text: "Data Managment"
-      href: manag.html
-    - text: "Data Visualization"
-      href: visual.html
-
+  - text: Home
+    href: index.html
+  - text: Data Managment
+    href: manag.html
+  - text: Data Visualization
+    href: visual.html
+  - text: Regression
+    href: reg.html
+  - text: Decission Tree
+    href: DT.html
+  - text: Other Data analytics
+    href: other.html
+  - text: Model Evaluation
+    href: modeval.html
+  - text: Ensemble Learning
+    href: EnsLear.html
+  - text: mySQL
+    href: mysql.html
 output:
   html_document:
     theme: cosmo
     highlight: textmate
+    lib_dir: site_libs
+    self_contained: no
+

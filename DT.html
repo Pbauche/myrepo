@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Decision Tree</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">First Draft</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="manag.html">Data Managment</a>
+</li>
+<li>
+  <a href="visual.html">Data Visualization</a>
+</li>
+<li>
+  <a href="reg.html">Regression</a>
+</li>
+<li>
+  <a href="DT.html">Decission Tree</a>
+</li>
+<li>
+  <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="modeval.html">Model Evaluation</a>
+</li>
+<li>
+  <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Decision Tree</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><strong>Introduction</strong></h1>
+<p>Variable dépendante catégoriel. Non parametric model.<br />
+Abre qui se split a chaque neaux selon une variables (un seuil est défini).<br />
+Decision tree consists of two types of nodes :<br />
+- <em>leaf node</em> : indicate class defined by the response variable - <em>decision node</em> : which specifies some test on a single attributes</p>
+<p>=&gt; DT use recursive divide and conquer approach.</p>
+</div>
+<div id="decision-tree" class="section level1">
+<h1><strong>Decision Tree</strong></h1>
+<div id="type-of-decision-tree" class="section level3">
+<h3>Type of décision tree</h3>
+<ul>
+<li><strong>Regression tree</strong> : variables réponse continue. Objectif est de split a chaque itération en minimisant les residual sum squares RSS.
+<ul>
+<li>Recursively split the feature vector space (X1, X2, ., Xp) into distinct and non-overlapping regions</li>
+<li>For new observations falling into the same region, the prediction is equal to the mean of all the training observations in that region.</li>
+</ul></li>
+<li><strong>Classification tree</strong> : variables categorielle
+<ul>
+<li>We use classification error rate for making the splits in classification trees.</li>
+<li>Instead of taking the mean of response variable in a particular region for prediction, here we use the most commonly occurring class of training observation as a prediction methodology.</li>
+</ul></li>
+</ul>
+</div>
+<div id="decision-measures-measure-of-node-purity-heterogeneity-of-the-node" class="section level3">
+<h3>Decision measures : measure of node purity (heterogeneity of the node)</h3>
+<ul>
+<li><strong>Gini Index</strong> : $ G = p_{ml}*(1-P_{mp}) $ where, pmk is the proportion of training observations in the mth region that are from the kth class</li>
+<li><strong>Entropy function</strong> : $ E = - </li>
+</ul>
+<pre class="r"><code>curve(-x *log2(x) -(1 -x) *log2(1 -x), xlab =&quot;x&quot;, ylab =&quot;Entropy&quot;, lwd =5)</code></pre>
+<p><img src="DT_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Observe that both measures are very similar, however, there are some differences: - Gini-index is more suitable to continuous attributes and entropy in case of discrete data. - Gini-index works well for minimizing misclassifications. - Entropy is slightly slower than Gini-index, as it involves logarithms (although this doesn’t really matter much given today’s fast computing machines)</p>
+<ul>
+<li><strong>Information gain</strong> : Measure du changement de l’entrepy entre avant et apres le split</li>
+</ul>
+</div>
+<div id="decision-tree-learning-methods" class="section level3">
+<h3>Decision tree learning methods</h3>
+<ul>
+<li><strong>Iterative Dichotomizer 3</strong> : most popular décision tree algorithms
+<ul>
+<li>Calculate entropy of each attribute using training observations</li>
+<li>Split the observations into subsets using the attribute with minimum entropy or maximum information gain.</li>
+<li>The selected attribute becomes the decision node.</li>
+<li>Repeat the process with the remaining attribute on the subset.</li>
+</ul></li>
+</ul>
+<p>=&gt; pas super performant pour le multiclass classification</p>
+<ul>
+<li><strong>C5.0 algorithm</strong> : il split les noeuds en 3 possibilités - All observations are a single classe =&gt; identify class - No class =&gt; use the most frequent class at the parent of this node - mixtureof classes =&gt; a test based on single attribute (use information gain)</li>
+</ul>
+<p>Repete jusqu’au moment outout les observations sont correctement classifié On utilise pruning pour réduire l’overfitting. Mais avec C50 on utilise pas pruning car algorithm iterate back and replace leaf that dosn’t increase the information gain.</p>
+<ul>
+<li><strong>Classification and regression tree - CART</strong> : Use residual sum square as the node impurity measure. SI utilisation pour pure classification GINI indix peut etre plus approprié comme mesure d’impurité - Start the algorithm at the root node. - For each attribute X, find the subset S that minimizes the residual sum of square (RSS) of the two children and chooses the split that gives the maximum information gain. - Check if relative decrease in impurity is below a prescribed threshold.
+<ul>
+<li>If Yes, splitting stops, otherwise repeat Step 2.</li>
+</ul></li>
+</ul>
+<p>on peut aussi utiliser un parametre de complexité (cp) : any split that does not decrease the overall lack of fit by a factor of cp would not be attempted by the model</p>
+<ul>
+<li><strong>Chi-square automated interaction detection - CHAID</strong> Ici uniquement pour variable catégoriel. variables continues sont catégorisé par optimal bining.<br />
+L’algorithm fusion les catégories sinon significative avec la variables dépendante. De même si une catégorie a trop peu d’observation, elle est fusionnée avec la catégorie la plus similaire mesurée par la pval tu test chi2. CHAID détecte l’interaction entre variables dans un jeu de données. En utilisant cette technique on peut établir des relations de dépendance entre variable;</li>
+</ul>
+<p>L’algorithme CHAID2 se déroule en trois étapes : - préparation des prédicteurs : transformation en variable catégoriel par optimal bining - fusion des classes : pour chaque prédicteur, on determine les catégorie les plus semblable par rapport a la variables dependante. (chi2) Repetition de l’étape jusqu’àavoir une catégorie fusionnée significative non indépendante. Ajuste les pval par bonferonni si des classe ont été fusionnée - sélection de la variable de séparation : choisi la variable avec la plus faible pval (au test indépendante chi2 ajusté avec bonferonni), la plus significative. Processus iteratif. Si pval dépasse un seuil, le processus prend fin - stopping : - Si node est pure:no split - pval &gt; seuil : nosplit</p>
+<pre class="r"><code>library(C50)</code></pre>
+<pre><code>## Warning: package &#39;C50&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(splitstackshape)</code></pre>
+<pre><code>## Warning: package &#39;splitstackshape&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: data.table</code></pre>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(rattle)</code></pre>
+<pre><code>## Warning: package &#39;rattle&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Rattle: A free graphical interface for data science with R.
+## Version 5.1.0 Copyright (c) 2006-2017 Togaware Pty Ltd.
+## Type &#39;rattle()&#39; to shake, rattle, and roll your data.</code></pre>
+<pre class="r"><code>library(rpart.plot)</code></pre>
+<pre><code>## Warning: package &#39;rpart.plot&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: rpart</code></pre>
+<pre><code>## Warning: package &#39;rpart&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(data.table)
+
+### Data prep ###
+#################
+Data_Purchase &lt;-fread(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/PurchasePredictionDataset.csv&quot;,header=T,verbose =FALSE, showProgress =FALSE)
+
+table(Data_Purchase$ProductChoice)</code></pre>
+<pre><code>## 
+##      1      2      3      4 
+## 106603 199286 143893  50218</code></pre>
+<pre class="r"><code>#Pulling out only the relevant data to this chapter
+Data_Purchase &lt;-Data_Purchase[,c(&quot;CUSTOMER_ID&quot;,&quot;ProductChoice&quot;,&quot;MembershipPoints&quot;,&quot;IncomeClass&quot;,&quot;CustomerPropensity&quot;,&quot;LastPurchaseDuration&quot;)]
+
+#Delete NA from subset
+Data_Purchase &lt;-na.omit(Data_Purchase)
+Data_Purchase$CUSTOMER_ID &lt;-as.character(Data_Purchase$CUSTOMER_ID)
+
+#Stratified Sampling
+Data_Purchase_Model&lt;-stratified(Data_Purchase, group=c(&quot;ProductChoice&quot;),size =10000,replace=FALSE)
+
+table(Data_Purchase_Model$ProductChoice)</code></pre>
+<pre><code>## 
+##     1     2     3     4 
+## 10000 10000 10000 10000</code></pre>
+<pre class="r"><code>Data_Purchase_Model$ProductChoice &lt;-as.factor(Data_Purchase_Model$ProductChoice)
+Data_Purchase_Model$IncomeClass &lt;-as.factor(Data_Purchase_Model$IncomeClass)
+Data_Purchase_Model$CustomerPropensity &lt;-as.factor(Data_Purchase_Model$CustomerPropensity)
+
+#Build the decision tree on Train Data (Set_1) and then test data (Set_2) will be used for performance testing
+
+set.seed(917)
+train &lt;- Data_Purchase_Model[sample(nrow(Data_Purchase_Model),size=nrow(Data_Purchase_Model)*(0.7), replace =TRUE, prob =NULL),]
+train &lt;-as.data.frame(train)
+test &lt;-Data_Purchase_Model[!(Data_Purchase_Model$CUSTOMER_ID %in%train$CUSTOMER_ID),]
+
+# save(train, file=&quot;train.RData&quot;)
+# save(test, file=&quot;test.RData&quot;)
+
+library(RWeka)</code></pre>
+<pre><code>## Warning: package &#39;RWeka&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code># WPM(&quot;refresh-cache&quot;)
+# WPM(&quot;install-package&quot;, &quot;simpleEducationalLearningSchemes&quot;)
+
+### ID3 model ###
+#################
+# ID3 &lt;-make_Weka_classifier(&quot;weka/classifiers/trees/Id3&quot;)
+# ID3Model &lt;-ID3(ProductChoice ~CustomerPropensity +IncomeClass ,data = train)
+# 
+# v = summary(ID3Model)
+# 
+# saveRDS(v, &quot;ID3Model.rds&quot;)
+
+ff &lt;- readRDS(&quot;ID3Model.rds&quot;)
+ff</code></pre>
+<pre><code>## 
+## === Summary ===
+## 
+## Correctly Classified Instances        9268               33.1    %
+## Incorrectly Classified Instances     18732               66.9    %
+## Kappa statistic                          0.1078
+## Mean absolute error                      0.3646
+## Root mean squared error                  0.427 
+## Relative absolute error                 97.2403 %
+## Root relative squared error             98.6105 %
+## Total Number of Instances            28000     
+## 
+## === Confusion Matrix ===
+## 
+##     a    b    c    d   &lt;-- classified as
+##  4792  315 1439  509 |    a = 1
+##  3812  494 1812  898 |    b = 2
+##  2701  421 2485 1298 |    c = 3
+##  2918  416 2193 1497 |    d = 4</code></pre>
+<pre class="r"><code># library(gmodels)
+# purchase_pred_test &lt;-predict(ID3Model, test)
+# CrossTable(test$ProductChoice, purchase_pred_test, prop.chisq =FALSE, 
+#            prop.c =FALSE, prop.r =FALSE,
+#            dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))
+
+# train set accurancy : 33.3036%
+# test set accurancy : 0.159+0.004+0.086+ 0.073 = 33.2%
+# test and train are proche : sign of no overfitting
+
+### C50 model ###
+#################
+model_c50 &lt;-C5.0(train[,c(&quot;CustomerPropensity&quot;,&quot;LastPurchaseDuration&quot;, &quot;MembershipPoints&quot;)],
+                 train[,&quot;ProductChoice&quot;],
+                 control =C5.0Control(CF =0.001, minCases =2))
+summary(model_c50)</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train[, c(&quot;CustomerPropensity&quot;,
+##  &quot;LastPurchaseDuration&quot;, &quot;MembershipPoints&quot;)], y =
+##  train[, &quot;ProductChoice&quot;], control = C5.0Control(CF = 0.001, minCases = 2))
+## 
+## 
+## C5.0 [Release 2.07 GPL Edition]      Sun Jul 15 10:10:03 2018
+## -------------------------------
+## 
+## Class specified by attribute `outcome&#39;
+## 
+## Read 28000 cases (4 attributes) from undefined.data
+## 
+## Decision tree:
+## 
+## MembershipPoints &lt;= 1: 4 (4571/2550)
+## MembershipPoints &gt; 1:
+## :...CustomerPropensity in {High,VeryHigh}:
+##     :...LastPurchaseDuration &lt;= 5: 3 (2912/1922)
+##     :   LastPurchaseDuration &gt; 5:
+##     :   :...CustomerPropensity = High: 3 (1985/1281)
+##     :       CustomerPropensity = VeryHigh: 4 (2367/1455)
+##     CustomerPropensity in {Low,Medium,Unknown}:
+##     :...CustomerPropensity = Unknown: 1 (8152/5013)
+##         CustomerPropensity in {Low,Medium}:
+##         :...LastPurchaseDuration &lt;= 3: 1 (3049/2021)
+##             LastPurchaseDuration &gt; 3: 3 (4964/3468)
+## 
+## 
+## Evaluation on training data (28000 cases):
+## 
+##      Decision Tree   
+##    ----------------  
+##    Size      Errors  
+## 
+##       7 17710(63.3%)   &lt;&lt;
+## 
+## 
+##     (a)   (b)   (c)   (d)    &lt;-classified as
+##    ----  ----  ----  ----
+##    4167        1886  1002    (a): class 1
+##    3247        2311  1458    (b): class 2
+##    2170        3190  1545    (c): class 3
+##    1617        2474  2933    (d): class 4
+## 
+## 
+##  Attribute usage:
+## 
+##  100.00% MembershipPoints
+##   83.68% CustomerPropensity
+##   54.56% LastPurchaseDuration
+## 
+## 
+## Time: 0.1 secs</code></pre>
+<pre class="r"><code>plot(model_c50)</code></pre>
+<p><img src="DT_files/figure-html/DT-1.png" width="672" /></p>
+<pre class="r"><code>library(gmodels)</code></pre>
+<pre><code>## Warning: package &#39;gmodels&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>purchase_pred_train &lt;-predict(model_c50, train,type =&quot;class&quot;)
+vtrain = CrossTable(train$ProductChoice, purchase_pred_train, prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  28000 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              1 |      4167 |      1886 |      1002 |      7055 | 
+##                |     0.149 |     0.067 |     0.036 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              2 |      3247 |      2311 |      1458 |      7016 | 
+##                |     0.116 |     0.083 |     0.052 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              3 |      2170 |      3190 |      1545 |      6905 | 
+##                |     0.077 |     0.114 |     0.055 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              4 |      1617 |      2474 |      2933 |      7024 | 
+##                |     0.058 |     0.088 |     0.105 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##   Column Total |     11201 |      9861 |      6938 |     28000 | 
+## ---------------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>sum(diag(vtrain$prop.tbl))</code></pre>
+<pre><code>## [1] 0.2865357</code></pre>
+<pre class="r"><code>purchase_pred_test &lt;-predict(model_c50, test)
+vtest = CrossTable(test$ProductChoice, purchase_pred_test, prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  20002 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              1 |      2941 |      1282 |       775 |      4998 | 
+##                |     0.147 |     0.064 |     0.039 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              2 |      2325 |      1666 |      1004 |      4995 | 
+##                |     0.116 |     0.083 |     0.050 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              3 |      1550 |      2306 |      1179 |      5035 | 
+##                |     0.077 |     0.115 |     0.059 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              4 |      1159 |      1732 |      2083 |      4974 | 
+##                |     0.058 |     0.087 |     0.104 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##   Column Total |      7975 |      6986 |      5041 |     20002 | 
+## ---------------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>sum(diag(vtest$prop.tbl))</code></pre>
+<pre><code>## [1] 0.2892711</code></pre>
+<pre class="r"><code># train set accurancy = 37%
+# test set accurancy = 36.55%
+
+#save(model_c50, file=&quot;model_c50.RData&quot;)
+
+
+### CART MODEL ###
+##################
+CARTModel &lt;-rpart(ProductChoice ~IncomeClass +CustomerPropensity +LastPurchaseDuration +MembershipPoints, data=train)
+
+summary(CARTModel)</code></pre>
+<pre><code>## Call:
+## rpart(formula = ProductChoice ~ IncomeClass + CustomerPropensity + 
+##     LastPurchaseDuration + MembershipPoints, data = train)
+##   n= 28000 
+## 
+##           CP nsplit rel error    xerror        xstd
+## 1 0.08355216      0 1.0000000 1.0034376 0.003456583
+## 2 0.03609453      1 0.9164478 0.9177369 0.003706275
+## 3 0.01000000      2 0.8803533 0.8816424 0.003785861
+## 
+## Variable importance
+##   CustomerPropensity     MembershipPoints LastPurchaseDuration 
+##                   56                   43                    1 
+## 
+## Node number 1: 28000 observations,    complexity param=0.08355216
+##   predicted class=1  expected loss=0.7480357  P(node) =1
+##     class counts:  7055  7016  6905  7024
+##    probabilities: 0.252 0.251 0.247 0.251 
+##   left son=2 (19396 obs) right son=3 (8604 obs)
+##   Primary splits:
+##       CustomerPropensity   splits as  RLLLR,      improve=369.9823, (0 missing)
+##       MembershipPoints     &lt; 1.5  to the right,   improve=273.3759, (0 missing)
+##       LastPurchaseDuration &lt; 4.5  to the left,    improve=186.6539, (0 missing)
+##       IncomeClass          splits as  LLLLLLRRRR, improve= 20.7359, (0 missing)
+##   Surrogate splits:
+##       LastPurchaseDuration &lt; 14.5 to the left,  agree=0.699, adj=0.019, (0 split)
+## 
+## Node number 2: 19396 observations,    complexity param=0.03609453
+##   predicted class=1  expected loss=0.6925139  P(node) =0.6927143
+##     class counts:  5964  5163  4064  4205
+##    probabilities: 0.307 0.266 0.210 0.217 
+##   left son=4 (16165 obs) right son=5 (3231 obs)
+##   Primary splits:
+##       MembershipPoints     &lt; 1.5  to the right,   improve=279.39040, (0 missing)
+##       CustomerPropensity   splits as  -RRL-,      improve= 95.08210, (0 missing)
+##       LastPurchaseDuration &lt; 3.5  to the left,    improve= 90.36377, (0 missing)
+##       IncomeClass          splits as  LRRRRRRRRR, improve= 15.21899, (0 missing)
+## 
+## Node number 3: 8604 observations
+##   predicted class=3  expected loss=0.6698047  P(node) =0.3072857
+##     class counts:  1091  1853  2841  2819
+##    probabilities: 0.127 0.215 0.330 0.328 
+## 
+## Node number 4: 16165 observations
+##   predicted class=1  expected loss=0.6737396  P(node) =0.5773214
+##     class counts:  5274  4466  3666  2759
+##    probabilities: 0.326 0.276 0.227 0.171 
+## 
+## Node number 5: 3231 observations
+##   predicted class=4  expected loss=0.5524605  P(node) =0.1153929
+##     class counts:   690   697   398  1446
+##    probabilities: 0.214 0.216 0.123 0.448</code></pre>
+<pre class="r"><code>library(rpart.plot)
+library(rattle)
+
+fancyRpartPlot(CARTModel)</code></pre>
+<p><img src="DT_files/figure-html/DT-2.png" width="672" /></p>
+<pre class="r"><code>purchase_pred_train &lt;-predict(CARTModel, train,type =&quot;class&quot;)
+vtrain = CrossTable(train$ProductChoice, purchase_pred_train, prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  28000 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              1 |      5274 |      1091 |       690 |      7055 | 
+##                |     0.188 |     0.039 |     0.025 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              2 |      4466 |      1853 |       697 |      7016 | 
+##                |     0.160 |     0.066 |     0.025 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              3 |      3666 |      2841 |       398 |      6905 | 
+##                |     0.131 |     0.101 |     0.014 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##              4 |      2759 |      2819 |      1446 |      7024 | 
+##                |     0.099 |     0.101 |     0.052 |           | 
+## ---------------|-----------|-----------|-----------|-----------|
+##   Column Total |     16165 |      8604 |      3231 |     28000 | 
+## ---------------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code># Training set Accuracy = 27%
+# not the bast for classification
+
+### MODEL CHAID ###
+###################
+#install.packages(&quot;CHAID&quot;, repos=&quot;http://R-Forge.R-project.org&quot;)
+library(CHAID)</code></pre>
+<pre><code>## Loading required package: partykit</code></pre>
+<pre><code>## Warning: package &#39;partykit&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre class="r"><code>ctrl &lt;- chaid_control(minsplit =200, minprob =0.1)
+
+CHAIDModel &lt;-chaid(ProductChoice ~CustomerPropensity +IncomeClass, data = train, control = ctrl)
+
+purchase_pred_train &lt;-predict(CHAIDModel, train)
+vtrain = CrossTable(train$ProductChoice, purchase_pred_train, prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  28000 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         2 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              1 |      4629 |       110 |      1704 |       612 |      7055 | 
+##                |     0.165 |     0.004 |     0.061 |     0.022 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              2 |      3791 |       136 |      1977 |      1112 |      7016 | 
+##                |     0.135 |     0.005 |     0.071 |     0.040 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              3 |      2657 |        49 |      2357 |      1842 |      6905 | 
+##                |     0.095 |     0.002 |     0.084 |     0.066 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              4 |      2913 |        93 |      2094 |      1924 |      7024 | 
+##                |     0.104 |     0.003 |     0.075 |     0.069 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##   Column Total |     13990 |       388 |      8132 |      5490 |     28000 | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>sum(diag(vtrain$prop.tbl))</code></pre>
+<pre><code>## [1] 0.3230714</code></pre>
+<pre class="r"><code>print(CHAIDModel)</code></pre>
+<pre><code>## 
+## Model formula:
+## ProductChoice ~ CustomerPropensity + IncomeClass
+## 
+## Fitted party:
+## [1] root
+## |   [2] CustomerPropensity in High: 3 (n = 4100, err = 68.5%)
+## |   [3] CustomerPropensity in Low: 1 (n = 4595, err = 73.2%)
+## |   [4] CustomerPropensity in Medium
+## |   |   [5] IncomeClass in , 1, 3, 4, 5, 6: 3 (n = 4006, err = 73.8%)
+## |   |   [6] IncomeClass in 2, 7, 8: 4 (n = 986, err = 69.4%)
+## |   |   [7] IncomeClass in 9: 3 (n = 26, err = 42.3%)
+## |   [8] CustomerPropensity in Unknown
+## |   |   [9] IncomeClass in : 2 (n = 16, err = 0.0%)
+## |   |   [10] IncomeClass in 1: 2 (n = 21, err = 38.1%)
+## |   |   [11] IncomeClass in 2, 3, 5: 1 (n = 3634, err = 62.1%)
+## |   |   [12] IncomeClass in 4, 6: 1 (n = 4318, err = 66.1%)
+## |   |   [13] IncomeClass in 7, 9: 1 (n = 1443, err = 61.5%)
+## |   |   [14] IncomeClass in 8: 2 (n = 351, err = 69.5%)
+## |   [15] CustomerPropensity in VeryHigh: 4 (n = 4504, err = 64.0%)
+## 
+## Number of inner nodes:     3
+## Number of terminal nodes: 12</code></pre>
+<pre class="r"><code>plot(CHAIDModel)</code></pre>
+<p><img src="DT_files/figure-html/DT-3.png" width="672" /></p>
+</div>
+</div>
+<div id="random-forests" class="section level1">
+<h1><strong>Random Forests</strong></h1>
+<p>Fait partie des ensemble trees (boosting, bagging, .. etc). Random forests généralise les decision trees en contruistant plusieurs DT et les combinant. - 1. Soit N nbr d’observation, n nombre de DT et M le nombre de variables du dataset - 2. Choose a subset of m variables from M (m&lt;&lt;M) and buld n DT using ramdon set of m variable - 3. Grow each tree as large os possible - 4. Use majority voting to decide the class of the observation</p>
+<pre class="r"><code>### Data prep ###
+#################
+library(caret)</code></pre>
+<pre><code>## Warning: package &#39;caret&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(gmodels)
+
+load(&quot;train.RData&quot;)
+load(&quot;test.RData&quot;)
+
+set.seed(100)
+dim(train)</code></pre>
+<pre><code>## [1] 28000     6</code></pre>
+<pre class="r"><code>train = train[1:2000,]
+
+control &lt;- trainControl(method=&quot;repeatedcv&quot;, number=5, repeats=2)
+
+# rfModel &lt;-train(ProductChoice ~CustomerPropensity +LastPurchaseDuration +MembershipPoints, 
+#                 data=train, method=&quot;rf&quot;, trControl=control)
+# 
+# saveRDS(rfModel, &quot;rfModel.rds&quot;)
+rfModel &lt;- readRDS(&quot;rfModel.rds&quot;)
+
+# de tout les DT meilleur accurancy sur le test et le train mais probleme d&#39;overfitting
+
+purchase_pred_train &lt;-predict(rfModel, train)
+vtrain = CrossTable(train$ProductChoice, purchase_pred_train, prop.chisq =FALSE, prop.c =FALSE, 
+                    prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  2000 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         2 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              1 |       295 |        46 |        80 |        78 |       499 | 
+##                |     0.147 |     0.023 |     0.040 |     0.039 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              2 |       197 |        77 |       125 |       111 |       510 | 
+##                |     0.098 |     0.038 |     0.062 |     0.056 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              3 |       140 |        47 |       204 |        92 |       483 | 
+##                |     0.070 |     0.024 |     0.102 |     0.046 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              4 |       116 |        35 |       146 |       211 |       508 | 
+##                |     0.058 |     0.018 |     0.073 |     0.105 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##   Column Total |       748 |       205 |       555 |       492 |      2000 | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>purchase_pred_train &lt;-predict(rfModel, test)
+vtest = CrossTable(test$ProductChoice, purchase_pred_train, prop.chisq =FALSE, prop.c =FALSE, 
+                   prop.r =FALSE,dnn =c(&#39;actual default&#39;, &#39;predicted default&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  20002 
+## 
+##  
+##                | predicted default 
+## actual default |         1 |         2 |         3 |         4 | Row Total | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              1 |      2770 |       521 |       914 |       793 |      4998 | 
+##                |     0.138 |     0.026 |     0.046 |     0.040 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              2 |      2122 |       549 |      1288 |      1036 |      4995 | 
+##                |     0.106 |     0.027 |     0.064 |     0.052 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              3 |      1436 |       494 |      1957 |      1148 |      5035 | 
+##                |     0.072 |     0.025 |     0.098 |     0.057 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##              4 |      1063 |       397 |      1509 |      2005 |      4974 | 
+##                |     0.053 |     0.020 |     0.075 |     0.100 |           | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+##   Column Total |      7391 |      1961 |      5668 |      4982 |     20002 | 
+## ---------------|-----------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>sum(diag(vtrain$prop.tbl))</code></pre>
+<pre><code>## [1] 0.3935</code></pre>
+<pre class="r"><code>sum(diag(vtest$prop.tbl))</code></pre>
+<pre><code>## [1] 0.3640136</code></pre>
+<pre class="r"><code>### RF on continuous variable ###
+#################################
+library(Metrics)</code></pre>
+<pre><code>## Warning: package &#39;Metrics&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(randomForest)</code></pre>
+<pre><code>## Warning: package &#39;randomForest&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## randomForest 4.6-12</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     margin</code></pre>
+<pre><code>## The following object is masked from &#39;package:rattle&#39;:
+## 
+##     importance</code></pre>
+<pre class="r"><code>RF &lt;- randomForest(dist ~ speed, data = cars)
+rmse(cars$dist,predict(RF, cars))</code></pre>
+<pre><code>## [1] 11.84672</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

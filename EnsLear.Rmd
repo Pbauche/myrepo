@@ -1,0 +1,63 @@
+---
+title: "Ensemble Learning"
+---
+
+# **Ensemble Trees**
+This is a set of algorithms that is built by combining results from multiple machine learning algorithms.These methods have become very popular due to their ability to provide superior results and the possibility of breaking into independent models to train on a distributed networ
+
+### Boosting
+Boosting is an ensemble meta-algorithm in ML that helps in reducing bias and variance and fits a sequence of weak learners on different weighted training observations
+
+```{r boostc50}
+#Exemple using DT C50algo
+load("model_c50.RData")
+load("train.RData")
+load("test.RData")
+
+library(caret)
+library(gmodels)
+library(C50)
+
+control <- trainControl(method="repeatedcv", number=10, repeats=3)
+
+ModelC50_boostcv10 <- C5.0(train[,c("CustomerPropensity","LastPurchaseDuration","MembershipPoints")], train[,"ProductChoice"], trials = 10)
+
+purchase_pred_train <-predict(ModelC50_boostcv10, train)
+
+vtest = CrossTable(train$ProductChoice, purchase_pred_train,prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE, dnn =c('actual default', 'predicted default'))
+
+sum(diag(vtest$prop.tbl))
+
+# augmentation de l'accurancy sur le train set
+
+
+
+```
+
+### Bagging
+Boostrap aggregating : help to reduce variance and overffiting on training observation
+    - 1. Soit un set de N observations, generate mnew training set D de taille n avec $n << N$ by uniform sampling avec remplacement (=bootstrap)
+    - 2. fit m training set and averaging the output (regression) or majority voting (for classification)
+
+### Bagging CART  : Exemple : 
+```{r eval=FALSE, include=FALSE}
+load("train.RData")
+load("test.RData")
+
+set.seed(100)
+
+control <- trainControl(method="repeatedcv", number=5, repeats=2)
+
+CARTBagModel <- train(ProductChoice ~ CustomerPropensity + LastPurchaseDuration + MembershipPoints, data=train, method="treebag", trControl=control)
+
+purchase_pred_train <-predict(CARTBagModel, train)
+
+vtest = CrossTable(train$ProductChoice, purchase_pred_train,prop.chisq =FALSE, prop.c =FALSE, prop.r =FALSE, dnn =c('actual default', 'predicted default'))
+
+sum(diag(vtest$prop.tbl))
+
+# augmentation de l'accurancy sur le train set mais test set va diminuer et probleme d'overfitting
+
+
+```
+

@@ -2,14 +2,12 @@
   title: "Handout"
 ---
   
-# **Amandine, I love you <3** 
-  
 ### Command line
 - git add . 
 - git commit -m "comment"
 
 # **Summary**
-## 1. Data Managment : Usefull Useful techniques
+## 1. Data Managment : Usefull techniques
 ## 2. Data Visualization : some ggplot  
 ## 3. Regression
   - 3.1. linear
@@ -26,6 +24,7 @@
   - 7.2. Clustering 
   
 ## 8. Other Data Analytics
+  - Support vector machine
   - 8.1. Boosting
   - 8.2. Bagging
   - 8.3. Boostrap
@@ -33,9 +32,18 @@
 ## 9. Text mining
 
 ## 10. Time Series
+
+## 11. Model evaluation
+
+## 12. mySQL
+
+## 13. To do 
+  - tydiverse package
+  
+## Hint 
+save environement and not every model : faster
   
   
   
   
-  
-  
+3

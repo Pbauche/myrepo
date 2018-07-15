@@ -173,7 +173,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">First Try</a>
+      <a class="navbar-brand" href="index.html">First Draft</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -181,10 +181,28 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
+  <a href="manag.html">Data Managment</a>
+</li>
+<li>
   <a href="visual.html">Data Visualization</a>
 </li>
 <li>
-  <a href="manag.html">Data Managment</a>
+  <a href="reg.html">Regression</a>
+</li>
+<li>
+  <a href="DT.html">Decission Tree</a>
+</li>
+<li>
+  <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="modeval.html">Model Evaluation</a>
+</li>
+<li>
+  <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -203,8 +221,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="data-managment" class="section level1">
-<h1><strong>Data Managment</strong></h1>
+<div id="pre-processing" class="section level1">
+<h1><strong>Pre processing</strong></h1>
 <div id="missing-value" class="section level3">
 <h3>Missing Value</h3>
 <ul>
@@ -253,12 +271,12 @@ $(document).ready(function () {
 <h1><strong>Feature enegeering : variables selections</strong></h1>
 <div id="filter-methods" class="section level3">
 <h3>Filter methods :</h3>
-<p>Select variables sans mod?lisation. Methode univari?e. Order feature by importance - Chi square test - Corr?lation coefficients - information gain metrics - fisher score - variance treshold</p>
+<p>Select variables sans mod?lisation. Methode univari?e. Order feature by importance - Chi square test - Correlation coefficients - information gain metrics - fisher score - variance treshold</p>
 <p>Methode robust contre overfitting mais peut selectionner variables redondantes</p>
 </div>
 <div id="wrapper-methods" class="section level3">
 <h3>Wrapper Methods:</h3>
-<p>Test diff?rentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric - forward/backward selection - recursive feature elimation algorithm - …</p>
+<p>Test differentes combinaisons de feature selon crit?re de performance. Predictive model is used to evaluate the set of feature by accurancy metric - forward/backward selection - recursive feature elimation algorithm - …</p>
 <p>M?thode efficace pour la mod?lisation. Peut caus? de l’overfitting</p>
 </div>
 <div id="embedded-methods" class="section level3">
@@ -270,14 +288,252 @@ $(document).ready(function () {
 <h3>Dimension reduction :</h3>
 <p>PCA see unsupervised analysis</p>
 </div>
-<div id="check-list" class="section level3">
-<h3>Check list</h3>
+</div>
+<div id="example-credit-risk-modeling" class="section level1">
+<h1><strong>Example : Credit risk modeling</strong></h1>
 <ul>
-<li>Use knowladge to construct a better set of features (business)</li>
+<li><strong>Feature ranking</strong>
+<ul>
+<li>Fit logistic model</li>
+<li>Calculate Gini coefficient</li>
+<li>rearrange variables ? combine, weighted sums, etc</li>
+<li>Need to understand variable individually ? use Filtering method</li>
+<li>data dirty ? detect outlier</li>
+<li>Data selection? use first ranking, forward selection and last Embedded method. Compare with crit?rion (misclassi, MSE, AIC, etc)</li>
+<li>improve performance? bootstrap : subsample your data et redo analysis</li>
+</ul></li>
+</ul>
+<pre class="r"><code>### Data Prep ###
+#################
+data = get(load(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/LoanDefaultPred.RData&quot;))
+dim(data)</code></pre>
+<pre><code>## [1] 20000   771</code></pre>
+<pre class="r"><code>#Create the default variable
+data[,&quot;default&quot;]=ifelse(data$loss ==0, 0,1)
+print(table(data$default)*100/nrow(data))</code></pre>
+<pre><code>## 
+##      0      1 
+## 90.635  9.365</code></pre>
+<pre class="r"><code># Without prior kwowledge : if more than 30 variable is continuous
+continuous &lt;-character()
+categorical &lt;-character()
+i = names(data)[1]
+p&lt;-1
+q&lt;-1
+
+for (i in names(data)){
+unique_levels =length(unique(data[,i]))
+
+  if(i %in% c(&quot;id&quot;,&quot;loss&quot;,&quot;default&quot;)){
+next;
+      }else if (unique_levels &lt;=30 |is.character(data[,i])){
+            categorical[p] &lt;-i
+            p=p+1
+            data[[i]] &lt;-factor(data[[i]])
+  }else{
+            continuous[q] &lt;-i
+            q=q+1
+  }}
+
+cat(&quot;\nTotal number of continuous variables in feature set &quot;,length(continuous) -1)</code></pre>
+<pre><code>## 
+## Total number of continuous variables in feature set  714</code></pre>
+<pre class="r"><code>cat(&quot;\nTotal number of categorical variable in feature set &quot;,length(categorical) -2)</code></pre>
+<pre><code>## 
+## Total number of categorical variable in feature set  52</code></pre>
+<pre class="r"><code>library(MLmetrics)</code></pre>
+<pre><code>## Warning: package &#39;MLmetrics&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MLmetrics&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:caret&#39;:
+## 
+##     MAE, RMSE</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     Recall</code></pre>
+<pre class="r"><code>performance_metric_gini &lt;-data.frame(feature =character(), Gini_value =numeric())
+
+# for (feature in names(data)){
+#     if(feature %in%c(&quot;id&quot;,&quot;loss&quot;,&quot;default&quot;)) {
+#         next
+#       } else {
+# tryCatch(
+#   {glm_model &lt;-glm(default ~get(feature),data=data,family=binomial(link=&quot;logit&quot;));
+#   predicted_values &lt;-predict.glm(glm_model,newdata=data,type=&quot;response&quot;);
+#   Gini_value &lt;-Gini(predicted_values,data$default);
+#   performance_metric_gini &lt;-rbind(performance_metric_gini,cbind(feature,Gini_value));},error=function(e){})
+# }
+# }
+# 
+# saveRDS(performance_metric_gini, &quot;performance_metric_gini.rds&quot;)
+performance_metric_gini &lt;- readRDS(&quot;performance_metric_gini.rds&quot;)
+
+performance_metric_gini$Gini_value &lt;-as.numeric(as.character(performance_metric_gini$Gini_value))
+
+Ranked_Features &lt;-performance_metric_gini[order(-performance_metric_gini$Gini_value),]
+class(Ranked_Features)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>head(Ranked_Features)</code></pre>
+<pre><code>##     feature Gini_value
+## 389    f404  0.2579189
+## 710    f766  0.2578312
+## 585    f630  0.2415352
+## 584    f629  0.2354368
+## 321    f333  0.2352707
+## 56      f64  0.2348747</code></pre>
+<pre class="r"><code># Note  : When you are running loops over large datasets, it is possible that the loop might stop due to some errors. to escape that, consider using the trycatch() function in r
+
+### Try logistic regression with top 5 features ###
+###################################################
+
+glm_model &lt;-glm(default ~f766 +f404 +f629 +f630 +f281
+                +f322,data=data,family=binomial(link=&quot;logit&quot;))
+predicted_values &lt;-predict.glm(glm_model,newdata=data,type=&quot;response&quot;)
+Gini_value &lt;-Gini(predicted_values,data$default)
+summary(glm_model)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = default ~ f766 + f404 + f629 + f630 + f281 + f322, 
+##     family = binomial(link = &quot;logit&quot;), data = data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.6928  -0.4946  -0.4102  -0.3329   3.0013  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept) -1.502550   4.939282  -0.304   0.7610  
+## f766        -0.010228   4.916519  -0.002   0.9983  
+## f404        -1.395602   4.908606  -0.284   0.7762  
+## f629        -0.306456   0.172632  -1.775   0.0759 .
+## f630        -0.165047   0.128300  -1.286   0.1983  
+## f281         0.007759   0.019386   0.400   0.6890  
+## f322         0.264196   0.128472   2.056   0.0397 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 12415  on 19938  degrees of freedom
+## Residual deviance: 12040  on 19932  degrees of freedom
+##   (61 observations deleted due to missingness)
+## AIC: 12054
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>Gini_value</code></pre>
+<pre><code>## [1] 0.2697868</code></pre>
+<pre class="r"><code># Every features aren&#39;t always significant. Indication that features themselves are highly correlated. Gini coef has not improved. So investigate multicorrelation.
+
+# Variable ranking method is univariate and lead to the selection of a redundant variables. 
+
+top_6_feature &lt;-data.frame(data$f766,data$f404,data$f629,data$f630,data$f281,data$f322)
+cor(top_6_feature, use=&quot;complete&quot;)</code></pre>
+<pre><code>##            data.f766  data.f404  data.f629  data.f630  data.f281
+## data.f766  1.0000000  0.9996754  0.6777553  0.6378040  0.8205665
+## data.f404  0.9996754  1.0000000  0.6774434  0.6374457  0.8204153
+## data.f629  0.6777553  0.6774434  1.0000000  0.9155376  0.6628148
+## data.f630  0.6378040  0.6374457  0.9155376  1.0000000  0.6202698
+## data.f281  0.8205665  0.8204153  0.6628148  0.6202698  1.0000000
+## data.f322 -0.7706228 -0.7707861 -0.5450001 -0.5048133 -0.7371242
+##            data.f322
+## data.f766 -0.7706228
+## data.f404 -0.7707861
+## data.f629 -0.5450001
+## data.f630 -0.5048133
+## data.f281 -0.7371242
+## data.f322  1.0000000</code></pre>
+</div>
+<div id="example-variance-treshold-approach" class="section level1">
+<h1><strong>Example : variance treshold approach</strong></h1>
+<p>Hypoth?se : Variable with high variability also have higher information in them. We remove all variables havant variance less than a treshold. Attention, les variables ne sont pas standardis?es, on ne peut pas les comparer directement. On utilise le coeficient de variation :<span class="math inline">\(c= \fraq{\sigma}{\mu}\)</span></p>
+<pre class="r"><code># Calculate CV
+coefficient_of_variance &lt;-data.frame(feature =character(), cov =numeric())
+
+for (feature in names(data)){
+
+  if(feature %in%c(&quot;id&quot;,&quot;loss&quot;,&quot;default&quot;)){next
+  }else if(feature %in% continuous){
+
+    tryCatch({
+      cov &lt;-abs(sd(data[[feature]], na.rm =TRUE)/mean(data[[feature]],na.rm =TRUE));
+      if(cov !=Inf){
+coefficient_of_variance &lt;-rbind(coefficient_of_variance,cbind(feature, cov));
+      } else {next}
+              },error=function(e){})
+  
+  }else{next}
+}
+
+coefficient_of_variance$cov &lt;-as.numeric(as.character(coefficient_of_variance$cov))
+Ranked_Features_cov &lt;-coefficient_of_variance[order(-coefficient_of_variance$cov),]
+
+head(Ranked_Features_cov)</code></pre>
+<pre><code>##     feature       cov
+## 294    f338 128.05980
+## 377    f422 111.93083
+## 664    f724  69.64913
+## 349    f393  55.39446
+## 712    f775  47.64456
+## 350    f394  46.68719</code></pre>
+<pre class="r"><code>## Logistic model
+
+lm_model &lt;-glm(default ~f338 +f422 +f724 +f636 +f775 +f723,data=data,
+               family=binomial(link=&quot;logit&quot;));
+predicted_values &lt;-predict.glm(glm_model,newdata=data,type=&quot;response&quot;)
+Gini_value &lt;-Gini(predicted_values,data$default)
+
+cat(&quot;The Gini Coefficient for the fitted model is &quot;,Gini_value);</code></pre>
+<pre><code>## The Gini Coefficient for the fitted model is  0.2697868</code></pre>
+<p>Contrairement au Ranking avec Gini, les variables ne sont pas domin?s par leur structure de correlation. Mais les variables ne sont pas toutes significatives individuellement et le coef GINI pas particuli?rement am?lior?. Avec variance treshlod on esp?re selectionn? des variables ind?pendantes</p>
+</div>
+<div id="check-list" class="section level1">
+<h1><strong>Check list</strong></h1>
+<ul>
+<li>Use knowledge to construct a better set of features (business)</li>
 <li>Normalize the feature if metrics differt or unknow</li>
 <li>if suspect interdependance:</li>
 </ul>
 </div>
+<div id="method-summary" class="section level1">
+<h1><strong>Method Summary</strong></h1>
+<table style="width:51%;">
+<colgroup>
+<col width="5%" />
+<col width="23%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Variable quanti</th>
+<th>Variable quali</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Graph</td>
+<td>Time series, barplot, boxplot, histographe, QQplot, scaterplot</td>
+<td>barplot, boxplot</td>
+</tr>
+<tr class="even">
+<td>Test</td>
+<td>t-test sur la moyenne, chi2 sur la variance, test normalité, corrélation, test F variance, test de levene</td>
+<td>test proportion, test ajustement, test indépendance</td>
+</tr>
+<tr class="odd">
+<td>Modélisation</td>
+<td>Régression linéaire</td>
+<td>régression logistique, analyse discriminante, abre décision</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Parametric : assume thaht sample data is drawn from a known probabilité distribution based on fixed set of parameters. For instance, linear regression assumes normal distribution, whereas logistic assumes binomial distribution, etc. This assumption allows the methods to be applied to small datasets as well.</p></li>
+<li><p>Non parametric : not assume any probabilty distribution or prior. Contruct empirical distributions from data. (= Kernel regression, NPMR) ** LIRE : Artificial Intelligence: A Modern Approach&quot; by Stuart Russell and Peter Norvig.</p></li>
+</ul>
+</div>
+<div id="tydiverse-package" class="section level1">
+<h1><strong>tydiverse package</strong></h1>
 </div>
 
 
