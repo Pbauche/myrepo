@@ -1,4 +1,4 @@
----
+﻿---
 title: "Regression"
 ---
 
@@ -9,6 +9,8 @@ load("BreastCancer.Rdata")
 
 # **introduction**
 First supervized learning. Variable dépendante disponible. Prédiction sur base d'autres variables
+Supervised learning means we have the (X,Y) and we need to get the function that maps X to Y.
+
 
 # **Linear regression**
   - **Model** :   $Y=\alpha + X \beta + \epsilon$

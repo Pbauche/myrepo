@@ -28,20 +28,36 @@
   - 8.1. Boosting
   - 8.2. Bagging
   - 8.3. Boostrap
+  - 
 
 ## 9. Text mining
+  - 
 
 ## 10. Time Series
+  - ARMA-Garch Model
+  - VAR
+  - dynamic Factoriel model
+  -
 
 ## 11. Model evaluation
 
+## 12. Ensemble learning
+
 ## 12. mySQL
 
-## 13. To do 
+## 13. Usefull R tools
+  - Parallele computation
+  - Building an R Package
+  - Profiling and Optimizing
+  - Real time data traitement
+  - Shiny app
+
+## 14. To do 
   - tydiverse package
+  - Tensorflow for deep learning : open source software library developed at google for complex computation
   
 ## Hint 
-save environement and not every model : faster
+- save environement and not every model : faster
   
   
   

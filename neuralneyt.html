@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Neural Network</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">First Draft</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="manag.html">Data Managment</a>
+</li>
+<li>
+  <a href="visual.html">Data Visualization</a>
+</li>
+<li>
+  <a href="reg.html">Regression</a>
+</li>
+<li>
+  <a href="DT.html">Decission Tree</a>
+</li>
+<li>
+  <a href="neuralneyt.html">Deep Learning</a>
+</li>
+<li>
+  <a href="baye.html">Bayesien</a>
+</li>
+<li>
+  <a href="Unsupervized.html">Unsupervised</a>
+</li>
+<li>
+  <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="textmining.html">Text Mining</a>
+</li>
+<li>
+  <a href="TimeS.html">Time Series</a>
+</li>
+<li>
+  <a href="modeval.html">Model Evaluation</a>
+</li>
+<li>
+  <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+<li>
+  <a href="mysql.html">Usefull R tools</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Neural Network</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><strong>Introduction</strong></h1>
+<pre class="r"><code>## Instal tensorflow
+
+# devtools::install_github(&quot;rstudio/reticulate&quot;)
+# devtools::install_github(&quot;rstudio/tfestimators&quot;)
+# library(tfestimators)
+# install_tensorflow()
+# 
+# SEE more information / exemple : https://tensorflow.rstudio.com/blog/keras-fraud-autoencoder.html</code></pre>
+<p>These algorithms work on complex neural structures that can abstract higher level of information from a huge dataset. They are computationally heavy and hard to train. We provide a deep architecture network and image recognition (convolutional nets) : - Deep Boltzmann Machine DBM - Deep Belief Network DBN - Convolutional Neural Network CNN - Stacked auto Encoders - RELU : fonction de lien activation fonction so much better than sigmoid (help with the vanishing gradient problem ???)</p>
+<p>What is deep neural netwwork :<br />
+- Deep Neural network consists of more hidden layers - Each Input will be connected to the hidden layer and the NN will decide the connections.</p>
+<p>Pratique car : - We no longer need to make any assumptions about our data; any type of data works in neural networks (categorical and numerical). - They are scalable techniques, can take in billions of data points,and can capture a very high level of abstraction. - Utilise le Learning and updating. Essai erreur. pour amélioréer les resultats</p>
+</div>
+<div id="neural-networks-basis" class="section level1">
+<h1><strong>Neural Networks Basis</strong></h1>
+<p>Artificial neural networks have three main components to set up :<br />
+- 1. Architecture: Number of layers, weights matrix, bias, connections,… - 2. Rules: Refer to the mechanism of how the neurons behave in response to signals from each other. - 3. Learning rule: The way in which the neural network’s weights change with time.</p>
+<div id="perceptron-basic-unit-of-ann." class="section level3">
+<h3>Perceptron : Basic unit of ANN.</h3>
+<pre><code>- Takes multiple input and produce binary output.
+- binary classification algorithm basé sur des prédicteurs linéaire et une fonction de poids  $f(x) = 1 Si wx+b &gt;0$ 
+
+![simple neural network](C:/Users/007/Desktop/Data science with R/R/img/perceptron.PNG)    </code></pre>
+<p>Single perceptron algorithm : - 1. Initialize de weights to some feasible values - 2. For each data point in a training set, do step 3 and 4. - 3. Calcul the output with previous step weights $$ y_j(t) = f[w(t)x_j] = f[w_0(t)x_{j,0} + w_1(t)x_{j,1} + w_2(t)x_{j,2}+ … + w_n(t)x_j,n]</p>
+<pre><code>- 4. Update the weight : $w_i(t+1) = w_i(t)+(d_j-y_j(t))x_{j,i}$ for all feature $0&lt;i&lt;n$
+- 5. Stop  when reach stopping criteria
+        - All points in training set are exhausted
+        - a preset number of iteration
+        - iteration error ($= \frac{1}{s} \sum |d_j - y_j(t)|$) is less than threshold error.
+        
+        </code></pre>
+</div>
+<div id="sigmoid-neuron" class="section level3">
+<h3>Sigmoid Neuron</h3>
+<p>Sigmoid Neuron ($ S(t) = ) allow a continuous output. similar to logistic curve. Tout comme le perceptron, le sigmoid neuron has weight for each input et un biais global.</p>
+<div class="figure">
+<img src="C:/Users/007/Desktop/Data%20science%20with%20R/R/img/sigmoid.PNG" alt="simple neural network" />
+<p class="caption">simple neural network</p>
+</div>
+</div>
+<div id="neural-network-architecture" class="section level3">
+<h3>Neural Network Architecture</h3>
+<div class="figure">
+<img src="C:/Users/007/Desktop/Data%20science%20with%20R/R/img/ANN.PNG" alt="artificial neural network" />
+<p class="caption">artificial neural network</p>
+</div>
+<p>Artificial neural networt expand the simple peceptron to a multi layer perceptron (MLP). THis is a neural network architeture that can deal with non linear separation as output.</p>
+<p><strong>Hidden layers </strong> : predicts connection between inputs automatically. Doesn’t have any direct input. Finding the hidden layer design and number is notstraightforward. Il existe plusieurs disign pour les hidden layer, par exemple : - Feedforward Neural Networks (FFNN): each input layer is in one direction. This network makes sure that there are no loops within the neural network. (le plus general) - Specialization versus Generalization: If you have too many hidden layers/complicated architecture, the neural network tend to be very specialized (so overfits). If you use simple architecture that the model will be very generalized and would not fit the data properly.</p>
+</div>
+<div id="feed-forward-back-propagation" class="section level3">
+<h3>Feed-Forward back propagation</h3>
+<p>One of the most popular learning methodologies in neural networks. It can by use to train artificial neural network. Method works on the gradient descent principle so the neuron function should be defferential.</p>
+<div class="figure">
+<img src="C:/Users/007/Desktop/Data%20science%20with%20R/R/img/FFBP.PNG" alt="artificial neural network" />
+<p class="caption">artificial neural network</p>
+</div>
+<p>We will give amathematical representation of error correction when the sigmoid function is used as the activation function. This algorithm will be correcting for error in each iteration and coverage to a point where it has no more reducible error : - 1. Feed-forward the network with input and get the output. - 2. Backward propagation of output, to calculate delta at each neuron (error). - 3. Multiply the delta and input activation function to get the gradient of weight. - 4. Update the weight by subtracting a ratio from the gradient of the weight.</p>
+<p>To update the weight wij using gradient descent, you must choose a learning rate</p>
+<p>Example : purchase prediction : NN classification</p>
+<pre class="r"><code>#data preparation 
+Data_Purchase_Prediction &lt;-read.csv(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/PurchasePredictionDataset.csv&quot;,header=TRUE)
+
+Data_Purchase_Prediction$choice &lt;-ifelse(Data_Purchase_Prediction$ProductChoice ==1,1, ifelse(Data_Purchase_Prediction$ProductChoice ==3,0,999))
+
+Data_Neural_Net &lt;-Data_Purchase_Prediction[Data_Purchase_Prediction$choice%in%c(&quot;0&quot;,&quot;1&quot;),]
+
+#Remove Missing Values
+Data_Neural_Net &lt;-na.omit(Data_Neural_Net)
+rownames(Data_Neural_Net) &lt;-NULL
+
+# Usually scaling the continuous variables in the intervals [0,1] or [-1,1] tends to give better results. Convert the categorical variables into binary variables.
+
+#Transforming the continuous variables
+cont &lt;-Data_Neural_Net[,c(&quot;PurchaseTenure&quot;,&quot;CustomerAge&quot;,&quot;MembershipPoints&quot;,&quot;IncomeClass&quot;)]
+maxs &lt;-apply(cont, 2, max)
+mins &lt;-apply(cont, 2, min)
+scaled_cont &lt;-as.data.frame(scale(cont, center = mins, scale = maxs -mins))
+
+#The dependent variable
+dep &lt;-factor(Data_Neural_Net$choice)
+
+# Multifactor data to binaries variables
+Data_Neural_Net$ModeOfPayment &lt;-factor(Data_Neural_Net$ModeOfPayment)
+flags_ModeOfPayment =data.frame(Reduce(cbind,lapply(levels(Data_Neural_Net$ModeOfPayment), function(x){(Data_Neural_Net$ModeOfPayment ==x)*1})))
+names(flags_ModeOfPayment) =levels(Data_Neural_Net$ModeOfPayment)
+
+Data_Neural_Net$CustomerPropensity &lt;-factor(Data_Neural_Net$CustomerPropensity)
+flags_CustomerPropensity =data.frame(Reduce(cbind,lapply(levels(Data_Neural_Net$CustomerPropensity), function(x){(Data_Neural_Net$CustomerPropensity ==x)*1})))
+names(flags_CustomerPropensity) =levels(Data_Neural_Net$CustomerPropensity)
+
+cate &lt;-cbind(flags_ModeOfPayment,flags_CustomerPropensity)
+
+#Combine all data into single modeling data
+Dataset &lt;-cbind(dep,scaled_cont,cate);
+
+#Divide the data into train and test
+set.seed(917);
+index &lt;-sample(1:nrow(Dataset),round(0.7*nrow(Dataset)))
+train &lt;-Dataset[index,]
+test &lt;-Dataset[-index,]
+
+##MODELING
+
+library(nnet)
+i &lt;-names(train)
+form &lt;-as.formula(paste(&quot;dep ~&quot;, paste(i[!i %in% &quot;dep&quot;], collapse =&quot; + &quot;)))
+nn &lt;-nnet.formula(form,size=10,data=train)</code></pre>
+<pre><code>## # weights:  181
+## initial  value 151866.965727 
+## iter  10 value 108709.305804
+## iter  20 value 107666.702615
+## iter  30 value 107382.819447
+## iter  40 value 107267.937386
+## iter  50 value 107203.589847
+## iter  60 value 107138.952084
+## iter  70 value 107084.361878
+## iter  80 value 107037.998279
+## iter  90 value 107003.328743
+## iter 100 value 106970.152142
+## final  value 106970.152142 
+## stopped after 100 iterations</code></pre>
+<pre class="r"><code># Use 10 neuron in one hidden layer
+
+predict_class &lt;-predict(nn, newdata=test, type=&quot;class&quot;)
+table(test$dep,predict_class)</code></pre>
+<pre><code>##    predict_class
+##         0     1
+##   0 28776 13863
+##   1 11964 19534</code></pre>
+<pre class="r"><code>sum(diag(table(test$dep,predict_class))/nrow(test))</code></pre>
+<pre><code>## [1] 0.6516314</code></pre>
+<pre class="r"><code># misc rate : 65.1% qui est 1% de plus que logistic reg
+# neural net ameliore prediction sur 0 mais détérior sur 1
+
+library(NeuralNetTools)</code></pre>
+<pre><code>## Warning: package &#39;NeuralNetTools&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>plotnet(nn)</code></pre>
+<p><img src="neuralneyt_files/figure-html/nn%20basis-1.png" width="672" /></p>
+<pre class="r"><code># Plot the importance
+olden(nn)</code></pre>
+<p><img src="neuralneyt_files/figure-html/nn%20basis-2.png" width="672" /></p>
+<pre class="r"><code>garson(nn)</code></pre>
+<p><img src="neuralneyt_files/figure-html/nn%20basis-3.png" width="672" /></p>
+</div>
+<div id="other-information" class="section level3">
+<h3>Other information</h3>
+<p>ain step : - define model structure - initialize model parameters - loop - calculate current loss (forward propagation) - calculate current gradient (backward propagation) -update parameter (gradient descent)</p>
+<p>Classification et regression Size parameter specifying how many nodes you want in the inner layer of the network</p>
+<p><strong>Type of neural network function</strong> : - Perceptron - Back propagation - Hopfield Network - Radia Basis Function Network (RBFN) - RELU</p>
+</div>
+</div>
+<div id="deep-learning" class="section level1">
+<h1><strong>Deep Learning</strong></h1>
+<p>Deep learning consists of advanced algorithms having multiple layers, composed of multiple linear and non-linear transformations</p>
+<p>There are multiple deep learning architectures : - automatic speech recognition, - NLP, - audio recognition - Deep neural network - Convolution deep neural network (image recognition :2 dimentional data) - deep belief (image et signal processing) - recurrent neural network (time series data) - recursive Neural network (langugage processing)</p>
+<p>In general, adding more layers and neurons per layer increases the specialization of neural network to train data and decreases the performance on test data: Overfitting and computational cost.</p>
+<p>However R is not yet developed enough tools to run various deep learning algorithms. Another reason for that is deep learning is so resource intensive that models can be trained only on large clusters and not on workstations.</p>
+<div id="example-of-deep-learning-classification" class="section level3">
+<h3>Example of deep learning : Classification</h3>
+<pre class="r"><code># continuous variable are scaled and categorical varibale converted into binary variables
+
+#install.packages(&quot;C:/Users/007/Desktop/Data science with R/R/darch_0.12.0.tar.gz&quot; , repos = NULL, type=&quot;source&quot;)
+
+library(darch)
+library(mlbench)
+library(RANN)
+
+#Print the model formula
+form</code></pre>
+<pre><code>## dep ~ PurchaseTenure + CustomerAge + MembershipPoints + IncomeClass + 
+##     BankTransfer + Cash + CashPoints + CreditCard + DebitCard + 
+##     MoneyWallet + Voucher + High + Low + Medium + Unknown + VeryHigh</code></pre>
+<pre class="r"><code>########### NOT Run TO long !!######
+
+#Apply the model using deep neural net with
+# deep_net &lt;- darch(form, train,
+#                   preProc.params = list(&quot;method&quot; = c(&quot;knnImpute&quot;)),
+#                   layers = c(0,10,30,10,0),
+#                   darch.batchSize = 1,
+#                   darch.returnBestModel.validationErrorFactor = 1,
+#                   darch.fineTuneFunction = &quot;rpropagation&quot;,
+#                   darch.unitFunction = c(&quot;tanhUnit&quot;, &quot;tanhUnit&quot;,&quot;tanhUnit&quot;,&quot;softmaxUnit&quot;),
+#                   darch.numEpochs = 15,
+#                   bootstrap = T,
+#                   bootstrap.num = 500)
+
+
+# deep_net &lt;-darch(form,train, 
+#                 preProc.params =list(method =c(&quot;center&quot;, &quot;scale&quot;)),
+#                 layers =c(0,10,30,10,0),
+#                 darch.unitFunction =c(&quot;sigmoidUnit&quot;, &quot;tanhUnit&quot;,&quot;tanhUnit&quot;,&quot;softmaxUnit&quot;),
+#                 darch.fineTuneFunction =&quot;minimizeClassifier&quot;,
+#                 darch.numEpochs =15,
+#                 cg.length =3, cg.switchLayers =5)
+# 
+
+library(NeuralNetTools)
+#plot(deep_net,&quot;net&quot;)
+#result &lt;-darchTest(deep_net, newdata = test)
+#result</code></pre>
+</div>
+<div id="example-imagine-prediction-nn-classification" class="section level3">
+<h3>Example : Imagine prediction : NN classification</h3>
+<pre class="r"><code># install.packages(&quot;drat&quot;, repos=&quot;https://cran.rstudio.com&quot;)
+# drat:::addRepo(&quot;dmlc&quot;)
+
+ # cran &lt;- getOption(&quot;repos&quot;)
+ # cran[&quot;dmlc&quot;] &lt;- &quot;https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/R/CRAN/&quot;
+ # options(repos = cran)
+ # install.packages(&quot;mxnet&quot;)
+
+# install.packages(&quot;https://github.com/jeremiedb/mxnet_winbin/raw/master/mxnet.zip&quot;, repos = NULL)
+
+
+#Please refer https://github.com/dahtah/imager
+##install.packages(&quot;devtools&quot;)
+#devtools::install_github(&quot;dahtah/imager&quot;)
+library(mxnet)</code></pre>
+<pre><code>## Warning: package &#39;mxnet&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>#install imager for loading images
+library(imager)</code></pre>
+<pre><code>## Warning: package &#39;imager&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: plyr</code></pre>
+<pre><code>## Warning: package &#39;plyr&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: magrittr</code></pre>
+<pre><code>## Warning: package &#39;magrittr&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:rgr&#39;:
+## 
+##     inset</code></pre>
+<pre><code>## 
+## Attaching package: &#39;imager&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:magrittr&#39;:
+## 
+##     add</code></pre>
+<pre><code>## The following object is masked from &#39;package:plyr&#39;:
+## 
+##     liply</code></pre>
+<pre><code>## The following object is masked from &#39;package:randomForest&#39;:
+## 
+##     grow</code></pre>
+<pre><code>## The following object is masked from &#39;package:partykit&#39;:
+## 
+##     width</code></pre>
+<pre><code>## The following object is masked from &#39;package:grid&#39;:
+## 
+##     depth</code></pre>
+<pre><code>## The following object is masked from &#39;package:gmodels&#39;:
+## 
+##     ci</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     convolve, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     frame</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     save.image</code></pre>
+<pre class="r"><code>library(drat)</code></pre>
+<pre><code>## Warning: package &#39;drat&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>#load the pre-trained model
+download.file(&#39;http://data.dmlc.ml/data/Inception.zip&#39;, destfile = &#39;Inception.zip&#39;)
+unzip(&quot;Inception.zip&quot;)
+
+model &lt;- mx.model.load(&quot;Inception/Inception_BN&quot;, iteration=39)
+
+
+#We also need to load in the mean image, which is used for preprocessing using mx.nd.load.
+
+mean.img = as.array(mx.nd.load(&quot;Inception/mean_224.nd&quot;)[[&quot;mean_img&quot;]])
+
+
+#Load and plot the image: (Default parrot image)
+#im &lt;- load.image(system.file(&quot;extdata/parrots.png&quot;, package=&quot;imager&quot;))
+#im &lt;-load.image(&quot;Images/russia-volcano.jpg&quot;)
+
+im = load.image(&quot;C:/Users/007/Desktop/Data science with R/R/Inception/fibrosarcome-chat.jpg&quot;)
+plot(im)</code></pre>
+<p><img src="neuralneyt_files/figure-html/DLimg-1.png" width="672" /></p>
+<pre class="r"><code>preproc.image &lt;-function(im, mean.image) {
+# crop the image
+shape &lt;-dim(im)
+short.edge &lt;-min(shape[1:2])
+xx &lt;-floor((shape[1] -short.edge) /2)
+yy &lt;-floor((shape[2] -short.edge) /2)
+cropped &lt;-crop.borders(im, xx, yy)
+# resize to 224 x 224, needed by input of the model.
+resized &lt;-resize(cropped, 224, 224)
+# convert to array (x, y, channel)
+arr &lt;-as.array(resized) *255
+dim(arr) &lt;-c(224, 224, 3)
+# subtract the mean
+normed &lt;-arr -mean.img
+
+# Reshape to format needed by mxnet (width, height, channel, num)
+dim(normed) &lt;-c(224, 224, 3, 1)
+return(normed)
+}
+
+#Now pass our image to pre-process
+normed &lt;-preproc.image(im, mean.img)
+plot(normed)</code></pre>
+<p><img src="neuralneyt_files/figure-html/DLimg-2.png" width="672" /></p>
+<pre class="r"><code>prob &lt;- predict(model, X=normed)
+#We can extract the top-5 class index.
+max.idx &lt;- order(prob[,1], decreasing = TRUE)[1:5]
+max.idx</code></pre>
+<pre><code>## [1] 283 286 282 288 284</code></pre>
+<pre class="r"><code>synsets &lt;-readLines(&quot;Inception/synset.txt&quot;)
+#And let us print the corresponding lines:
+print(paste0(&quot;Predicted Top-classes: &quot;, synsets[as.numeric(max.idx)]))</code></pre>
+<pre><code>## [1] &quot;Predicted Top-classes: n02123159 tiger cat&quot;       
+## [2] &quot;Predicted Top-classes: n02124075 Egyptian cat&quot;    
+## [3] &quot;Predicted Top-classes: n02123045 tabby, tabby cat&quot;
+## [4] &quot;Predicted Top-classes: n02127052 lynx, catamount&quot; 
+## [5] &quot;Predicted Top-classes: n02123394 Persian cat&quot;</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

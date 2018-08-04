@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Text Mining</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">First Draft</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="manag.html">Data Managment</a>
+</li>
+<li>
+  <a href="visual.html">Data Visualization</a>
+</li>
+<li>
+  <a href="reg.html">Regression</a>
+</li>
+<li>
+  <a href="DT.html">Decission Tree</a>
+</li>
+<li>
+  <a href="neuralneyt.html">Deep Learning</a>
+</li>
+<li>
+  <a href="baye.html">Bayesien</a>
+</li>
+<li>
+  <a href="Unsupervized.html">Unsupervised</a>
+</li>
+<li>
+  <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="textmining.html">Text Mining</a>
+</li>
+<li>
+  <a href="TimeS.html">Time Series</a>
+</li>
+<li>
+  <a href="modeval.html">Model Evaluation</a>
+</li>
+<li>
+  <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+<li>
+  <a href="mysql.html">Usefull R tools</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Text Mining</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><strong>Introduction</strong></h1>
+<p>Text mining = turn text into data analysis</p>
+<p>Check : - <a href="https://www.tidytextmining.com/index.html" class="uri">https://www.tidytextmining.com/index.html</a> - Natural language processing (NLP)</p>
+</div>
+<div id="text-summarization-gong-liu-method-2001-via-latent-semantic-analysis" class="section level1">
+<h1><strong>Text summarization : Gong &amp; Liu method (2001) via latent semantic analysis</strong></h1>
+<pre><code>- 1. Decompose the document D into individual sentences and use these sentences to form the candidate sentence set S and set k = 1.
+- 2. Construct the terms by sentences matrix A for the document D.
+- 3. Perform the SVD on A to obtain the singular value matrix, and the right singular vector matrix V^t. In the singular vector space, each sentence i is represented by the column vector.
+- 4. Select the k&#39;th right singular vector from matrix V^t.
+- 5. Select the sentence that has the largest index value with the k&#39;th right singular vector and include it in the summary.
+- 6. If k reaches the predefined number, terminate the operation otherwise, increment k by 1 and go back to Step 4</code></pre>
+</div>
+<div id="tf---idf" class="section level1">
+<h1><strong>TF - IDF</strong></h1>
+<pre><code>- Term frequency counts the number of occurrences of a term t in a document.
+- Inverse document frequency : $ idf = log_2 \frac{|D|}{|{d|t\in d}|} where |D| denotes the total number of documents and $|{d|t\in d}|$ is the number of documents where the term t appears</code></pre>
+<p>Certain terms that occur too frequently have little power in determining the reliance of a document. IDF weigh down the too frequently occurring word. (et inverserment)</p>
+<p>A tf-idf matrix is a numerical representation of a collection of documents (represented by row) and words contained in it (represented by columns).</p>
+</div>
+<div id="part-of-speech-pos-tagging" class="section level1">
+<h1><strong>Part of Speech (POS) tagging</strong></h1>
+<p>This could help in classifying named entities in text into categories like persons, company, locations, expression of time, and so on.</p>
+</div>
+<div id="word-cloud" class="section level1">
+<h1><strong>Word Cloud</strong></h1>
+<p>The word cloud helps in visualizing the words most frequently being used in the reviews</p>
+<pre class="r"><code>library(data.table)
+fine_food_data &lt;-read.csv(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/Food_Reviews.csv&quot;, stringsAsFactors =FALSE)
+fine_food_data$Score &lt;-as.factor(fine_food_data$Score)
+
+head(fine_food_data[,10],2)</code></pre>
+<pre><code>## [1] &quot;I have bought several of the Vitality canned dog food products and have found them all to be of good quality. The product looks more like a stew than a processed meat and it smells better. My Labrador is finicky and she appreciates this product better than  most.&quot;
+## [2] &quot;Product arrived labeled as Jumbo Salted Peanuts...the peanuts were actually small sized unsalted. Not sure if this was an error or if the vendor intended to represent the product as \&quot;Jumbo\&quot;.&quot;</code></pre>
+<pre class="r"><code># Data preparation
+
+library(caTools)</code></pre>
+<pre><code>## Warning: package &#39;caTools&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;caTools&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:RWeka&#39;:
+## 
+##     LogitBoost</code></pre>
+<pre class="r"><code># Randomly split data and use only 10% of the dataset
+set.seed(90)
+split =sample.split(fine_food_data$Score, SplitRatio =0.10)
+fine_food_data =subset(fine_food_data, split ==TRUE)
+select_col &lt;-c(&quot;Id&quot;,&quot;HelpfulnessNumerator&quot;,&quot;HelpfulnessDenominator&quot;,&quot;Score&quot;,&quot;Summary&quot;,&quot;Text&quot;)
+fine_food_data_selected &lt;-fine_food_data[,select_col]
+
+dim(fine_food_data_selected)</code></pre>
+<pre><code>## [1] 3518    6</code></pre>
+<pre class="r"><code># Summary text
+##original
+fine_food_data_selected[2,6]</code></pre>
+<pre><code>## [1] &quot;McCann&#39;s Instant Oatmeal is great if you must have your oatmeal but can only scrape together two or three minutes to prepare it. There is no escaping the fact, however, that even the best instant oatmeal is nowhere near as good as even a store brand of oatmeal requiring stovetop preparation.  Still, the McCann&#39;s is as good as it gets for instant oatmeal. It&#39;s even better than the organic, all-natural brands I have tried.  All the varieties in the McCann&#39;s variety pack taste good.  It can be prepared in the microwave or by adding boiling water so it is convenient in the extreme when time is an issue.&lt;br /&gt;&lt;br /&gt;McCann&#39;s use of actual cane sugar instead of high fructose corn syrup helped me decide to buy this product.  Real sugar tastes better and is not as harmful as the other stuff. One thing I do not like, though, is McCann&#39;s use of thickeners.  Oats plus water plus heat should make a creamy, tasty oatmeal without the need for guar gum. But this is a convenience product.  Maybe the guar gum is why, after sitting in the bowl a while, the instant McCann&#39;s becomes too thick and gluey.&quot;</code></pre>
+<pre class="r"><code>  library(LSAfun)</code></pre>
+<pre><code>## Warning: package &#39;LSAfun&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: lsa</code></pre>
+<pre><code>## Warning: package &#39;lsa&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: SnowballC</code></pre>
+<pre><code>## Warning: package &#39;SnowballC&#39; was built under R version 3.3.2</code></pre>
+<pre><code>## Loading required package: rgl</code></pre>
+<pre><code>## Warning: package &#39;rgl&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>genericSummary(fine_food_data_selected[2,6],k=1)</code></pre>
+<pre><code>## [1] &quot; There is no escaping the fact, however, that even the best instant oatmeal is nowhere near as good as even a store brand of oatmeal requiring stovetop preparation&quot;</code></pre>
+<pre class="r"><code>genericSummary(fine_food_data_selected[2,6],k=2)</code></pre>
+<pre><code>## [1] &quot; There is no escaping the fact, however, that even the best instant oatmeal is nowhere near as good as even a store brand of oatmeal requiring stovetop preparation&quot;
+## [2] &quot;  It can be prepared in the microwave or by adding boiling water so it is convenient in the extreme when time is an issue&quot;</code></pre>
+<pre class="r"><code># TF and IDF
+
+library(tm)</code></pre>
+<pre><code>## Warning: package &#39;tm&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: NLP</code></pre>
+<pre><code>## Warning: package &#39;NLP&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;NLP&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     annotate</code></pre>
+<pre class="r"><code>fine_food_data_corpus &lt;-VCorpus(VectorSource(fine_food_data_selected$Text))
+
+## Standardize the text - Pre-Processing
+fine_food_data_text_dtm &lt;-DocumentTermMatrix(fine_food_data_corpus, 
+                          control=list(tolower =TRUE,
+                                       removeNumbers =TRUE,
+                                       stopwords =TRUE,
+                                       removePunctuation =TRUE,
+                                       stemming =TRUE
+                                       ))
+
+#save frequently-appearing terms( more than 500 times) to a character vector
+fine_food_data_text_freq &lt;-findFreqTerms(fine_food_data_text_dtm, 500)
+
+# create DTMs with only the frequent terms
+fine_food_data_text_dtm &lt;-fine_food_data_text_dtm[ , fine_food_data_text_freq]
+tm::inspect(fine_food_data_text_dtm[1:5,1:10])</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 5, terms: 10)&gt;&gt;
+## Non-/sparse entries: 8/42
+## Sparsity           : 84%
+## Maximal term length: 6
+## Weighting          : term frequency (tf)
+## Sample             :
+##     Terms
+## Docs also bag buy can coffe dog eat find flavor food
+##    1    1   0   0   0     0   0   0    0      0    0
+##    2    0   0   1   2     0   0   0    0      0    0
+##    3    0   0   0   0     2   0   0    0      0    0
+##    4    0   0   0   0     0   0   1    1      0    0
+##    5    0   0   0   0     0   0   0    1      2    0</code></pre>
+<pre class="r"><code>#Create a tf-idf matrix
+fine_food_data_tfidf &lt;-weightTfIdf(fine_food_data_text_dtm, normalize=FALSE)
+tm::inspect(fine_food_data_tfidf[1:5,1:10])</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 5, terms: 10)&gt;&gt;
+## Non-/sparse entries: 8/42
+## Sparsity           : 84%
+## Maximal term length: 6
+## Weighting          : term frequency - inverse document frequency (tf-idf)
+## Sample             :
+##     Terms
+## Docs    also bag      buy      can   coffe dog      eat     find   flavor
+##    1 3.04583   0 0.000000 0.000000 0.00000   0 0.000000 0.000000 0.000000
+##    2 0.00000   0 2.635882 4.525741 0.00000   0 0.000000 0.000000 0.000000
+##    3 0.00000   0 0.000000 0.000000 5.82035   0 0.000000 0.000000 0.000000
+##    4 0.00000   0 0.000000 0.000000 0.00000   0 2.960361 2.992637 0.000000
+##    5 0.00000   0 0.000000 0.000000 0.00000   0 0.000000 2.992637 4.024711
+##     Terms
+## Docs food
+##    1    0
+##    2    0
+##    3    0
+##    4    0
+##    5    0</code></pre>
+<pre class="r"><code>#Part of Speech tagging
+
+fine_food_data_corpus&lt;-Corpus(VectorSource(fine_food_data_selected$Text[1:3]))
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_corpus, PlainTextDocument)
+
+##tolwer
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_cleaned, tolower)
+
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_cleaned, removeWords, stopwords(&quot;english&quot;))
+
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_cleaned,removePunctuation)
+
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_cleaned, removeNumbers)
+
+fine_food_data_cleaned &lt;-tm_map(fine_food_data_cleaned, stripWhitespace)
+
+
+library(openNLP)</code></pre>
+<pre><code>## Warning: package &#39;openNLP&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(NLP)
+
+fine_food_data_string &lt;-NLP::as.String(fine_food_data_cleaned[[1]])
+sent_token_annotator &lt;-Maxent_Sent_Token_Annotator()
+word_token_annotator &lt;-Maxent_Word_Token_Annotator()
+fine_food_data_string_an &lt;-annotate(fine_food_data_string, list(sent_token_annotator, word_token_annotator))
+
+pos_tag_annotator &lt;-Maxent_POS_Tag_Annotator()
+
+fine_food_data_string_an2 &lt;-annotate(fine_food_data_string, pos_tag_annotator, fine_food_data_string_an)
+
+head(annotate(fine_food_data_string, Maxent_POS_Tag_Annotator(probs =TRUE), fine_food_data_string_an2))</code></pre>
+<pre><code>##  id type     start end features
+##   1 sentence     1 524 constituents=&lt;&lt;integer,77&gt;&gt;
+##   2 word         1   9 POS=NNS, POS=NNS, POS_prob=0.7822268
+##   3 word        11  20 POS=VBP, POS=VBP, POS_prob=0.3488425
+##   4 word        22  30 POS=NN, POS=NN, POS_prob=0.8055908
+##   5 word        32  39 POS=JJ, POS=JJ, POS_prob=0.6114238
+##   6 word        41  45 POS=NN, POS=NN, POS_prob=0.9833723</code></pre>
+<pre class="r"><code>fine_food_data_string_an2w &lt;-subset(fine_food_data_string_an2, type == &quot;word&quot;)
+tags &lt;-sapply(fine_food_data_string_an2w$features, `[[`, &quot;POS&quot;)
+table(tags)</code></pre>
+<pre><code>## tags
+##   ,  CC  CD  IN  JJ JJS  NN NNS  RB  VB VBD VBG VBN VBP VBZ 
+##   1   2   1   1  10   2  28   9   5   1   6   2   4   2   3</code></pre>
+<pre class="r"><code>plot(table(tags), type =&quot;h&quot;, xlab=&quot;Part-Of_Speech&quot;, ylab =&quot;Frequency&quot;)</code></pre>
+<p><img src="textmining_files/figure-html/textmining-1.png" width="672" /></p>
+<pre class="r"><code>head(sprintf(&quot;%s/%s&quot;, fine_food_data_string[fine_food_data_string_an2w], tags),15)</code></pre>
+<pre><code>##  [1] &quot;twizzlers/NNS&quot;    &quot;strawberry/VBP&quot;   &quot;childhood/NN&quot;    
+##  [4] &quot;favorite/JJ&quot;      &quot;candy/NN&quot;         &quot;made/VBD&quot;        
+##  [7] &quot;lancaster/NN&quot;     &quot;pennsylvania/NN&quot;  &quot;y/RB&quot;            
+## [10] &quot;s/VBZ&quot;            &quot;candies/NNS&quot;      &quot;inc/CC&quot;          
+## [13] &quot;one/CD&quot;           &quot;oldest/JJS&quot;       &quot;confectionery/NN&quot;</code></pre>
+<pre class="r"><code># wordcloud
+
+library(SnowballC)
+library(wordcloud)</code></pre>
+<pre><code>## Warning: package &#39;wordcloud&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<pre><code>## Warning: package &#39;RColorBrewer&#39; was built under R version 3.3.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;wordcloud&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:gplots&#39;:
+## 
+##     textplot</code></pre>
+<pre class="r"><code>library(slam)
+
+fine_food_data_corpus &lt;-VCorpus(VectorSource(fine_food_data_selected$Text))
+
+fine_food_data_text_tdm &lt;-TermDocumentMatrix(fine_food_data_corpus,
+                          control =list(tolower =TRUE,
+                                        removeNumbers =TRUE,
+                                        stopwords =TRUE,
+                                        removePunctuation =TRUE,
+                                        stemming =TRUE
+                                        ))
+
+wc_tdm &lt;- rollup(fine_food_data_text_tdm,2,na.rm=TRUE,FUN=sum)
+matrix_c &lt;-as.matrix(wc_tdm)
+wc_freq &lt;-sort(rowSums(matrix_c))
+wc_tmdata &lt;-data.frame(words=names(wc_freq), wc_freq)
+wc_tmdata &lt;-na.omit(wc_tmdata)
+
+wordcloud (tail(wc_tmdata$words,100), tail(wc_tmdata$wc_freq,100), random.order=FALSE, colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
+<p><img src="textmining_files/figure-html/textmining-2.png" width="672" /></p>
+</div>
+<div id="text-analysis" class="section level1">
+<h1><strong>Text analysis</strong></h1>
+<p>we will introduce you to the powerful world of text analytics by using a third-party API ( (Application Programming Interface) called from within R. We will be using Microsoft Cognitive Services API to show some real-time analysis of text from the Twitter feed of a news agency.</p>
+<p>Microsoft Cognitive Services is a machine intelligence service. This service provide a cloud-based APIs for developers to do lot of high-end functions like face recognition, speech recognition, text mining, video feed analysis, and many others. We will be using their free developer service to show some text analytics features like : - <strong>Sentiment analysis</strong>: Sentiment analysis will tell us what kind of emotions the tweets are carrying. The Microsoft API returns a value between 0 and 1, where 1 means highly positive sentiment while 0 means highly negative sentiment. - <strong>Topic detection</strong>: What the topic of discussion is a document? - <strong>Language detection</strong>: Can you just provide something written and it shows you which language it is? - <strong>Summarization</strong>: Can we automatically summarize a big document to make it manageable to read</p>
+<p>Exemple : Use twitter to analyse Attention besoin d’un compte Microsoft cognitive</p>
+<pre class="r"><code>##&quot; NEED microsoft account, don&#39;t realy work&quot;
+
+
+# # library(&quot;twitteR&quot;)
+# # See Machine learning with R p 424 to use twitter for text analytics
+# 
+# #install.packages(&quot;mscstexta4r&quot;)
+# library(mscstexta4r)
+# 
+# Sys.setenv(MSCS_TEXTANALYTICS_URL =&quot;https://westcentralus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment&quot;)
+# Sys.setenv(MSCS_TEXTANALYTICS_KEY =&quot;2673988d37f941f89440d665ae6dad9b&quot;)
+# 
+# #Initialize the service
+# textaInit()
+# 
+# # Load Packages
+# require(tm)
+# require(NLP)
+# require(openNLP)
+# #Read the Forbes article into R environment
+# y &lt;-paste(scan(&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/india_after_independence.txt&quot;, what=&quot;character&quot;,sep=&quot; &quot;),collapse=&quot; &quot;)
+# 
+# convert_text_to_sentences &lt;-function(text, lang =&quot;en&quot;) {
+# # Function to compute sentence annotations using the Apache OpenNLP Maxent sentence detector employing the default model for language &#39;en&#39;.
+# sentence_token_annotator &lt;-Maxent_Sent_Token_Annotator(language = lang)
+# # Convert text to class String from package NLP
+# text &lt;-as.String(text)
+# # Sentence boundaries in text
+# sentence.boundaries &lt;-annotate(text, sentence_token_annotator)
+# # Extract sentences
+# sentences &lt;-text[sentence.boundaries]
+# # return sentences
+# return(sentences)
+# }
+# 
+# # Convert the text into sentences
+# article_text =convert_text_to_sentences(y, lang =&quot;en&quot;)
+# 
+# 
+# ### SEntiment analysis ### 
+# #import tweet
+# 
+# tweets = read.csv(file=&quot;C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 6/Twitter Feed From TimesNow.csv&quot;)
+# 
+# 
+# document_lang &lt;-rep(&quot;en&quot;, length(tweets$text))
+# tweets$text= as.character(tweets$text)
+# 
+# tryCatch({
+#   # Perform sentiment analysis
+#   output_1 &lt;-textaSentiment(
+#             documents = tweets$text, # Input sentences or documents
+#             languages = document_lang
+# # &quot;en&quot;(English, default)|&quot;es&quot;(Spanish)|&quot;fr&quot;(French)|&quot;pt&quot;(Portuguese)
+#                             )
+#         }, error = function(err) {
+# # Print error
+#             geterrmessage()
+#         })
+# merged &lt;-output_1$results
+# 
+# 
+# 
+# 
+# #######
+# library(httr)
+# library(jsonlite)
+# 
+# 
+# #Setup
+# cogapikey&lt;-&quot;2673988d37f941f89440d665ae6dad9b&quot;
+# cogapi&lt;-&quot;https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages&quot;
+# 
+# text=c(&quot;is this english?&quot;
+#        ,&quot;tak er der mere kage&quot;
+#        ,&quot;merci beaucoup&quot;
+#        ,&quot;guten morgen&quot;
+#        ,&quot;bonjour&quot;
+#        ,&quot;merde&quot;
+#        ,&quot;That&#39;s terrible&quot;
+#        ,&quot;R is awesome&quot;)
+# 
+# # Prep data
+# df&lt;-data_frame(id=1:8,text)
+# mydata&lt;-list(documents= df)
+# 
+# 
+# cogapi&lt;-&quot;https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment&quot;
+# # Construct a request
+# response&lt;-POST(cogapi, 
+#                add_headers(`Ocp-Apim-Subscription-Key`=cogapikey),
+#                body=toJSON(mydata))
+# 
+# # Process reponse
+# respcontent&lt;-content(response, as=&quot;text&quot;)
+# 
+# fromJSON(respcontent)$documents %&gt;%
+#    mutate(id=as.numeric(id)) -&gt;
+#    responses</code></pre>
+</div>
+<div id="other-topic" class="section level1">
+<h1><strong>Other topic</strong></h1>
+<div id="named-entity-recognition-ner" class="section level3">
+<h3>Named entity recognition NER</h3>
+</div>
+<div id="optical-character-recognition-ocr" class="section level3">
+<h3>Optical character recognition OCR</h3>
+</div>
+<div id="sentiment-analysis" class="section level3">
+<h3>sentiment analysis</h3>
+</div>
+<div id="speech-recognition" class="section level3">
+<h3>speech recognition</h3>
+</div>
+<div id="topic-modeling" class="section level3">
+<h3>topic modeling</h3>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

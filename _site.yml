@@ -5,28 +5,48 @@ navbar:
   left:
   - text: Home
     href: index.html
-
-  - text: Data Managment
+  - text: Data Managment  
     href: manag.html
-    
+#2    
   - text: Data Visualization
     href: visual.html
-    
+#3    
   - text: Regression
     href: reg.html
-    
+ #4   
   - text: Decission Tree
     href: DT.html
-    
+#5    
+  - text: Deep Learning
+    href: neuralneyt.html
+#6
+  - text: Bayesien
+    href: baye.html
+#7
+  - text: Unsupervised
+    href: Unsupervized.html
+#8
   - text: Other Data analytics
     href: other.html
-    
+#9
+  - text: Text Mining
+    href: textmining.html
+#10
+  - text: Time Series
+    href: TimeS.html
+#11
   - text: Model Evaluation
     href: modeval.html
-    
+#12    
   - text: Ensemble Learning
     href: EnsLear.html
-    
+#13    
+  - text: mySQL
+    href: mysql.html
+#14
+  - text: Usefull R tools
+    href: mysql.html
+#15
   - text: mySQL
     href: mysql.html
     

@@ -83,60 +83,7 @@ sum(diag(table(Data_House_Worth$HouseNetWorth,res)))/nrow(Data_House_Worth)
 
 SVM est un non probalistic binary classifier mais tr?s efficace. Peut sappliquer a la classification d'image, d'hypertext, character recognition, ...
 
-# ** Parallel Execution in R**
-Using the doParallel library in R, we can set the number of cores of the CPU, which you want your machine to use in while running the model. Keep in mind that assigning all the cores to this process could crash your other processes due to insufficient resources. To be safer, we used the c-2 cores, where c is the number of cores available in your machine.
 
-```{r parallel, eval=FALSE, include=FALSE}
-library(doParallel)
-### probleme pour restauré en core de base ###
-
-# Find out how many cores are available (if you don't already know)
-c =detectCores()
-c
-
-# Find out how many cores are currently being used
-getDoParWorkers()
-
-# Create cluster with c-2 cores
-cl <-makeCluster(c-2)
-
-# Register cluster
-registerDoParallel(cl)
-
-# Find out how many cores are being used
-getDoParWorkers()
-
-## Example : random forest for binary classifier on fraud on credit card
-credit <-read.csv("C:/Users/007/Desktop/Data science with R/R/Dataset/Chapter 9/credit.csv")
-
-# create a random sample for training and test data
-set.seed(123)
-train_sample <-sample(1000, 900)
-
-# split the data frames
-credit_train <-credit[train_sample, ]
-credit_test <-credit[-train_sample, ]
-
-##  Building model 
-library(randomForest)
-
-#Sequential Execution
-system.time(rf_credit_model <-randomForest(credit_train[-17],credit_train$default,ntree =1000))
-
-# In the parallel version of the code, instead of directly using the random forest model with ntree = 1000 parameters, we are going to use the foreach function with %dopar%, so we can split the 1000-decision tree building process into four processes. Each part builds 250 decision trees using the randomForest function.
-
-#Parallel Execution
-system.time( rf_credit_model_parallel <-foreach(nt =rep(250,4), 
-                                                .combine = combine , 
-                                                .packages ='randomForest')
-             %dopar%
-               randomForest(credit_train[-17],credit_train$default,ntree = nt))
-
-#Shutting down cluster - when you're done, be sure to close #the parallel backend using
-stopCluster(cl)
-getDoParWorkers()
-
-```
 
 # ** Hadoop introduction **   
 
@@ -192,7 +139,16 @@ Additional parameters are:
 
   
   
+# **bootstrap**
+
+
+### Adaboost
+### Stacked generalization 
+### Gradient Boosting Machines GBM
+
+
+
+
 
   
-
 

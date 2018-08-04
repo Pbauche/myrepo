@@ -193,13 +193,34 @@ $(document).ready(function () {
   <a href="DT.html">Decission Tree</a>
 </li>
 <li>
+  <a href="neuralneyt.html">Deep Learning</a>
+</li>
+<li>
+  <a href="baye.html">Bayesien</a>
+</li>
+<li>
+  <a href="Unsupervized.html">Unsupervised</a>
+</li>
+<li>
   <a href="other.html">Other Data analytics</a>
+</li>
+<li>
+  <a href="textmining.html">Text Mining</a>
+</li>
+<li>
+  <a href="TimeS.html">Time Series</a>
 </li>
 <li>
   <a href="modeval.html">Model Evaluation</a>
 </li>
 <li>
   <a href="EnsLear.html">Ensemble Learning</a>
+</li>
+<li>
+  <a href="mysql.html">mySQL</a>
+</li>
+<li>
+  <a href="mysql.html">Usefull R tools</a>
 </li>
 <li>
   <a href="mysql.html">mySQL</a>
@@ -279,13 +300,13 @@ CrossTable(train_data$V11, svm_pred_train, prop.chisq =FALSE, prop.c =FALSE, pro
 ##                | predicted default 
 ## actual default |         2 |         4 | Row Total | 
 ## ---------------|-----------|-----------|-----------|
-##              2 |       304 |         0 |       304 | 
-##                |     0.652 |     0.000 |           | 
+##              2 |       319 |         0 |       319 | 
+##                |     0.685 |     0.000 |           | 
 ## ---------------|-----------|-----------|-----------|
-##              4 |         0 |       162 |       162 | 
-##                |     0.000 |     0.348 |           | 
+##              4 |         0 |       147 |       147 | 
+##                |     0.000 |     0.315 |           | 
 ## ---------------|-----------|-----------|-----------|
-##   Column Total |       304 |       162 |       466 | 
+##   Column Total |       319 |       147 |       466 | 
 ## ---------------|-----------|-----------|-----------|
 ## 
 ## </code></pre>
@@ -306,13 +327,13 @@ CrossTable(test_data$V11, svm_pred_test,prop.chisq =FALSE, prop.c =FALSE, prop.r
 ##                | predicted default 
 ## actual default |         2 |         4 | Row Total | 
 ## ---------------|-----------|-----------|-----------|
-##              2 |       143 |        11 |       154 | 
-##                |     0.614 |     0.047 |           | 
+##              2 |       126 |        13 |       139 | 
+##                |     0.541 |     0.056 |           | 
 ## ---------------|-----------|-----------|-----------|
-##              4 |         0 |        79 |        79 | 
-##                |     0.000 |     0.339 |           | 
+##              4 |         0 |        94 |        94 | 
+##                |     0.000 |     0.403 |           | 
 ## ---------------|-----------|-----------|-----------|
-##   Column Total |       143 |        90 |       233 | 
+##   Column Total |       126 |       107 |       233 | 
 ## ---------------|-----------|-----------|-----------|
 ## 
 ## </code></pre>
@@ -353,9 +374,6 @@ table(Data_House_Worth$HouseNetWorth,res)</code></pre>
 <pre><code>## [1] 0.9082278</code></pre>
 <p>SVM est un non probalistic binary classifier mais tr?s efficace. Peut sappliquer a la classification d’image, d’hypertext, character recognition, …</p>
 </div>
-</div>
-<div id="parallel-execution-in-r-using-the-doparallel-library-in-r-we-can-set-the-number-of-cores-of-the-cpu-which-you-want-your-machine-to-use-in-while-running-the-model.-keep-in-mind-that-assigning-all-the-cores-to-this-process-could-crash-your-other-processes-due-to-insufficient-resources.-to-be-safer-we-used-the-c-2-cores-where-c-is-the-number-of-cores-available-in-your-machine." class="section level1">
-<h1>** Parallel Execution in R** Using the doParallel library in R, we can set the number of cores of the CPU, which you want your machine to use in while running the model. Keep in mind that assigning all the cores to this process could crash your other processes due to insufficient resources. To be safer, we used the c-2 cores, where c is the number of cores available in your machine.</h1>
 </div>
 <div id="hadoop-introduction" class="section level1">
 <h1>** Hadoop introduction **</h1>
@@ -407,6 +425,18 @@ localH2O =h2o.init
 # more demo : 
 # demo(package = &quot;h2o&quot;)</code></pre>
 <p>Additional parameters are: - Hidden, which specifies the hidden layer sizes, - Activation, which specifies the type of activation function; the demo uses a Tanh function - epochs, which directs the neural network with “How many times the dataset should be iterated (streamed)</p>
+</div>
+<div id="bootstrap" class="section level1">
+<h1><strong>bootstrap</strong></h1>
+<div id="adaboost" class="section level3">
+<h3>Adaboost</h3>
+</div>
+<div id="stacked-generalization" class="section level3">
+<h3>Stacked generalization</h3>
+</div>
+<div id="gradient-boosting-machines-gbm" class="section level3">
+<h3>Gradient Boosting Machines GBM</h3>
+</div>
 </div>
 
 
